@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -352,7 +352,7 @@
         <div class="hero" id="hero">
           <div class="hero-top">
             <div>
-              <div class="kicker">BASE PLAN จากคืนที่แล้ว</div>
+              <div class="kicker">BASE PLAN FROM LAST NIGHT</div>
               <div class="hero-title">TODAY'S DECISION</div>
             </div>
             <div class="status-pill" id="statusBadge">CHECK-IN</div>
@@ -368,8 +368,8 @@
               </div>
             </div>
             <div>
-              <h1 class="plan-title" id="planTitle">กรอก Morning Check-in เพื่อสร้างแผนวันนี้</h1>
-              <p class="plan-subtitle" id="planSubtitle">ระบบจะใช้ recovery, sleep, soreness, load และเวลาว่างเพื่อปรับแผนให้เหมาะกับชีวิตจริง</p>
+              <h1 class="plan-title" id="planTitle">Complete your Morning Check-in to build today's plan</h1>
+              <p class="plan-subtitle" id="planSubtitle">Athlete OS uses recovery, sleep, soreness, training load, and real calendar availability to adjust today's plan.</p>
             </div>
           </div>
 
@@ -377,7 +377,7 @@
             <div class="qc-top">
               <div>
                 <div class="qc-title">SLEEP & READINESS</div>
-                <div class="qc-sub">WHOOP % Sleep ✓ ความล้า ความพร้อม</div>
+                <div class="qc-sub">WHOOP %, sleep, fatigue, and mental readiness</div>
               </div>
               <div class="status-pill" id="checkinStatus">FIRST STEP</div>
             </div>
@@ -392,7 +392,7 @@
               <div class="field">
                 <div class="sleep-head">
                   <div class="field-label" style="margin-bottom:0">Sleep</div>
-                  <div class="sleep-value" id="sleepDisplay">6.0<span>ชม.</span></div>
+                  <div class="sleep-value" id="sleepDisplay">6.0<span>h</span></div>
                 </div>
                 <input id="sleepSlider" type="range" min="3" max="10" step="0.5" value="6">
               </div>
@@ -411,7 +411,7 @@
               <button class="primary-btn" id="saveMorningBtn">Save & Recalculate</button>
               <button class="ghost-btn" id="advancedToggleBtn">Advanced</button>
             </div>
-            <div class="hint">Advanced = HRV, RHR, soreness, work stress, sport load และ available time.</div>
+            <div class="hint">Advanced = HRV, RHR, soreness, work stress, sport load, and available time.</div>
           </div>
 
           <div class="panel" id="advancedPanel" hidden>
@@ -422,35 +422,35 @@
               <input class="metric-input" id="sorenessInput" type="number" min="1" max="5" placeholder="Soreness 1-5">
               <input class="metric-input" id="workStressInput" type="number" min="1" max="5" placeholder="Work 1-5">
               <select class="select" id="availabilityInput">
-                <option value="30">30 นาที</option>
-                <option value="45">45 นาที</option>
-                <option value="60" selected>60 นาที</option>
-                <option value="90">90 นาที</option>
-                <option value="120">120+ นาที</option>
+                <option value="30">30 min</option>
+                <option value="45">45 min</option>
+                <option value="60" selected>60 min</option>
+                <option value="90">90 min</option>
+                <option value="120">120+ min</option>
               </select>
               <select class="select" id="todaySportLoad">
-                <option value="0">วันนี้ไม่มี sport load</option>
+                <option value="0">No sport load today</option>
                 <option value="25">Sport light</option>
                 <option value="50">Sport hard</option>
                 <option value="75">Golf hard / 18 holes</option>
               </select>
               <select class="select" id="yesterdaySportLoad">
-                <option value="0">เมื่อวานไม่มี sport load</option>
+                <option value="0">No sport load yesterday</option>
                 <option value="25">Y sport light</option>
                 <option value="50">Y sport hard</option>
                 <option value="75">Y golf hard / 18 holes</option>
               </select>
               <select class="select" id="interruptInput">
-                <option value="0">ไม่มีโปรแกรมแทรก</option>
-                <option value="1">มีโปรแกรมแทรกวันนี้</option>
+                <option value="0">No interruption today</option>
+                <option value="1">Interrupted schedule today</option>
               </select>
             </div>
           </div>
 
           <div class="panel" id="todayPlanCard">
             <div class="kicker">TODAY PLAN</div>
-            <div class="panel-title">รอข้อมูล Check-in</div>
-            <div class="panel-text">ใส่ WHOOP Recovery เพื่อปลดล็อกแผนวันนี้</div>
+            <div class="panel-title">Waiting for check-in</div>
+            <div class="panel-text">Enter WHOOP Recovery to unlock today's plan</div>
           </div>
 
           <button class="detail-toggle" id="detailsToggle">View plan details</button>
@@ -473,8 +473,8 @@
       <div class="section">
         <div class="section-label">Set Your Win</div>
         <div class="review-block">
-          <div class="review-q">วันนี้ถือว่าสำเร็จถ้า... (1 อย่าง วัดได้จริง)</div>
-          <input class="single-input" id="preSuccess" type="text" placeholder="เช่น approach เข้า target zone 7/10 ครั้ง">
+          <div class="review-q">Today is a win if... (1 measurable outcome)</div>
+          <input class="single-input" id="preSuccess" type="text" placeholder="Example: approach shots hit target zone 7/10 times">
         </div>
         <button class="save-btn" data-save-section="pre">LOCK IN & GO</button>
       </div>
@@ -486,66 +486,66 @@
       <div class="section">
         <div class="section-label">Post-Session Review</div>
         <div class="review-block">
-          <div class="review-q">วันนี้ทำ Gym ไหม?</div>
+          <div class="review-q">Did you train in the gym today?</div>
           <div class="btn-grid" id="gymGrid">
             <button class="choice-btn" data-value="legs">Legs</button>
             <button class="choice-btn" data-value="push">Push</button>
             <button class="choice-btn" data-value="pull">Pull</button>
             <button class="choice-btn" data-value="full">Full Body</button>
             <button class="choice-btn" data-value="cardio">Cardio</button>
-            <button class="choice-btn" data-value="none">ไม่ได้ gym</button>
+            <button class="choice-btn" data-value="none">No gym</button>
           </div>
         </div>
         <div class="review-block">
           <div class="review-q">Progressive Overload Log</div>
           <div class="mini-grid">
-            <input class="metric-input" id="mainLiftName" type="text" placeholder="เช่น Barbell RDL">
+            <input class="metric-input" id="mainLiftName" type="text" placeholder="Example: Barbell RDL">
             <input class="metric-input" id="mainLiftWeight" type="number" min="0" placeholder="kg">
-            <input class="metric-input" id="mainLiftReps" type="text" placeholder="reps เช่น 8,8,8">
+            <input class="metric-input" id="mainLiftReps" type="text" placeholder="reps e.g. 8,8,8">
             <input class="metric-input" id="mainLiftRIR" type="number" min="0" max="5" placeholder="RIR">
           </div>
           <select class="select" id="mainLiftForm" style="margin-top:8px">
-            <option value="good">Form ดี / คุมได้</option>
-            <option value="ok">Form พอใช้</option>
-            <option value="bad">Form หลุด / เสี่ยงเจ็บ</option>
+            <option value="good">Good form / controlled</option>
+            <option value="ok">Form was acceptable</option>
+            <option value="bad">Form broke down / injury risk</option>
           </select>
         </div>
         <div class="review-block">
-          <div class="review-q">ทำตามแผนไหม?</div>
+          <div class="review-q">Did you follow the plan?</div>
           <div class="btn-grid" id="planResultGrid">
-            <button class="choice-btn" data-value="yes">ใช่</button>
-            <button class="choice-btn" data-value="partial">บางส่วน</button>
-            <button class="choice-btn" data-value="no">ไม่ได้</button>
+            <button class="choice-btn" data-value="yes">Yes</button>
+            <button class="choice-btn" data-value="partial">Partly</button>
+            <button class="choice-btn" data-value="no">No</button>
           </div>
         </div>
         <div class="review-block">
-          <div class="review-q">MISS PATTERN วันนี้</div>
+          <div class="review-q">Today's miss pattern</div>
           <div class="btn-grid" id="missPatternGrid">
-            <button class="choice-btn" data-value="Driver ซ้าย">Driver ซ้าย</button>
-            <button class="choice-btn" data-value="Driver ขวา">Driver ขวา</button>
-            <button class="choice-btn" data-value="Approach สั้น">Approach สั้น</button>
-            <button class="choice-btn" data-value="Approach ยาว">Approach ยาว</button>
-            <button class="choice-btn" data-value="Chip พลาด">Chip พลาด</button>
+            <button class="choice-btn" data-value="Driver left">Driver left</button>
+            <button class="choice-btn" data-value="Driver right">Driver right</button>
+            <button class="choice-btn" data-value="Approach short">Approach short</button>
+            <button class="choice-btn" data-value="Approach long">Approach long</button>
+            <button class="choice-btn" data-value="Chip miss">Chip miss</button>
             <button class="choice-btn" data-value="Putt speed">Putt speed</button>
-            <button class="choice-btn" data-value="Mental หลุด">Mental หลุด</button>
-            <button class="choice-btn" data-value="ไม่มี miss">ไม่มี miss</button>
+            <button class="choice-btn" data-value="Mental lapse">Mental lapse</button>
+            <button class="choice-btn" data-value="No miss">No miss</button>
           </div>
         </div>
         <div class="review-block">
-          <div class="review-q">แผนที่ระบบแนะนำวันนี้ช่วยได้ไหม?</div>
+          <div class="review-q">Was today's suggested plan useful?</div>
           <div class="btn-grid" id="feedbackGrid">
-            <button class="choice-btn" data-value="yes">ช่วย</button>
-            <button class="choice-btn" data-value="no">ไม่ช่วย</button>
-            <button class="choice-btn" data-value="unsure">ไม่แน่ใจ</button>
+            <button class="choice-btn" data-value="yes">Useful</button>
+            <button class="choice-btn" data-value="no">Not useful</button>
+            <button class="choice-btn" data-value="unsure">Not sure</button>
           </div>
         </div>
         <div class="review-block">
-          <div class="review-q">พรุ่งนี้ปรับ 1 อย่าง</div>
-          <input class="single-input" id="postAdjust" type="text" placeholder="เช่น เพิ่ม wedge distance drill">
+          <div class="review-q">One adjustment for tomorrow</div>
+          <input class="single-input" id="postAdjust" type="text" placeholder="Example: add wedge distance drill">
         </div>
         <div class="review-block">
-          <div class="review-q">โน้ตเพิ่มเติม</div>
-          <textarea class="text-input" id="postNote" placeholder="ความรู้สึก, จุดดี, สิ่งที่อยากจำ..."></textarea>
+          <div class="review-q">Additional notes</div>
+          <textarea class="text-input" id="postNote" placeholder="Feeling, highlights, things to remember..."></textarea>
         </div>
         <button class="save-btn" data-save-section="post">SAVE REVIEW</button>
         <div class="panel" id="tomorrowCard" style="display:none"></div>
@@ -559,8 +559,8 @@
         <div class="section-label">Tournament Countdown</div>
         <div class="panel">
           <div class="kicker">Calendar Sync</div>
-          <div class="panel-title" id="calendarSyncTitle">เชื่อม Calendar เพื่อหาเวลาว่าง</div>
-          <div class="panel-text" id="calendarSyncText">ดึง busy/free blocks จาก calendar แล้วให้ Athlete OS ปรับ available time และแนะนำ slot ซ้อมที่เหมาะกับ recovery วันนี้</div>
+          <div class="panel-title" id="calendarSyncTitle">Connect your calendar to find available training time</div>
+          <div class="panel-text" id="calendarSyncText">Athlete OS reads busy/free blocks, adjusts available time, and suggests training windows that fit today's recovery.</div>
           <div class="sync-row">
             <button class="primary-btn" id="connectGoogleBtn" type="button">Connect Google</button>
             <button class="ghost-btn" id="connectAppleBtn" type="button">Connect Apple</button>
@@ -577,15 +577,15 @@
           <div class="panel" id="calendarAvailabilityCard"></div>
         </div>
         <div class="review-block">
-          <div class="review-q">วันแข่ง / สอบโปร</div>
+          <div class="review-q">Tournament / pro test date</div>
           <input class="single-input" id="tournamentDate" type="date">
         </div>
         <div class="review-block">
-          <div class="review-q">ชื่อ / รายการ</div>
-          <input class="single-input" id="tournamentName" type="text" placeholder="เช่น Qualifying School / Pro Test">
+          <div class="review-q">Event name</div>
+          <input class="single-input" id="tournamentName" type="text" placeholder="Example: Qualifying School / Pro Test">
         </div>
         <button class="save-btn" id="saveTournamentBtn">SAVE COUNTDOWN</button>
-        <button class="ghost-btn" id="addTournamentCalendarBtn" style="width:100%;margin-top:8px">+ เพิ่มใน Calendar</button>
+        <button class="ghost-btn" id="addTournamentCalendarBtn" style="width:100%;margin-top:8px">+ Add to Calendar</button>
         <div class="summary-grid" style="margin-top:12px">
           <div class="summary-card"><div class="summary-label">Days Remaining</div><div class="summary-value" id="daysRemaining">-</div><div class="summary-note" id="countdownDate">-</div></div>
           <div class="summary-card"><div class="summary-label">Event</div><div class="summary-value" id="countdownEvent" style="font-size:22px">-</div><div class="summary-note">Target date</div></div>
@@ -600,7 +600,7 @@
       <div class="section">
         <div class="section-label">Training Log</div>
         <div class="summary-grid">
-          <div class="summary-card"><div class="summary-label">Readiness</div><div class="summary-value" id="progressRS">-</div><div class="summary-note">ล่าสุด</div></div>
+          <div class="summary-card"><div class="summary-label">Readiness</div><div class="summary-value" id="progressRS">-</div><div class="summary-note">Latest</div></div>
           <div class="summary-card"><div class="summary-label">7D Load</div><div class="summary-value" id="progressTL">-</div><div class="summary-note" id="progressRD">Recovery debt -</div></div>
         </div>
         <div class="panel" id="progressAdvice"></div>
@@ -639,11 +639,11 @@
   const gymWeight = { legs: 8, push: 6, pull: 5, full: 10, cardio: 4, none: 0 };
 
   const nutritionPlans = {
-    high: { label: "PUSH DAY FUEL", body: "Protein 110-150g/วัน + carb ก่อน/หลังซ้อม. หลีกเลี่ยงซ้อมตอนท้องว่าง." },
-    mid: { label: "MODERATE DAY FUEL", body: "กินปกติ 3 มื้อ เน้น protein พอและ carb ก่อนซ้อมเล็กน้อย." },
-    low: { label: "RECOVERY DAY FUEL", body: "ลด carb หนัก เน้นปลา ไข่ ผัก ผลไม้ น้ำ 2 ลิตร และลด caffeine." },
-    accumulated: { label: "HIGH LOAD RECOVERY FUEL", body: "เติมน้ำ/electrolyte เน้น anti-inflammatory และห้ามกดคาเฟอีนเยอะช่วงเย็น." },
-    interrupted: { label: "NORMAL DAY FUEL", body: "กินปกติ ไม่มีข้อกำหนดพิเศษ แค่ไม่ข้ามมื้อหลัก." }
+    high: { label: "PUSH DAY FUEL", body: "Protein 110-150g/day plus carbs before and after training. Avoid training on an empty stomach." },
+    mid: { label: "MODERATE DAY FUEL", body: "Eat 3 balanced meals, keep protein high, and add a small carb source before training." },
+    low: { label: "RECOVERY DAY FUEL", body: "Reduce heavy carbs, prioritize fish, eggs, vegetables, fruit, 2L water, and lower caffeine." },
+    accumulated: { label: "HIGH LOAD RECOVERY FUEL", body: "Hydrate with electrolytes, choose anti-inflammatory foods, and avoid late heavy caffeine." },
+    interrupted: { label: "NORMAL DAY FUEL", body: "Eat normally, keep meals consistent, and do not skip main meals." }
   };
 
   function safeParse(raw, fallback) {
@@ -734,28 +734,28 @@
     if (!card) return;
     const availability = getStore("aoCalendarAvailability", null);
     if (!availability) {
-      card.innerHTML = `<div class="kicker">AVAILABILITY</div><div class="panel-text">ยังไม่ได้ sync calendar</div>`;
+      card.innerHTML = `<div class="kicker">AVAILABILITY</div><div class="panel-text">Calendar has not been synced yet</div>`;
       return;
     }
     const slots = availability.freeSlots || [];
     const source = availability.source || "calendar";
-    $("calendarSyncTitle").textContent = `เชื่อมแล้ว: ${source.toUpperCase()}`;
-    $("calendarSyncText").textContent = `Sync ล่าสุด ${new Date(availability.syncedAt).toLocaleString("th-TH")} · busy ${availability.busyBlocks?.length || 0} blocks`;
+    $("calendarSyncTitle").textContent = `Connected: ${source.toUpperCase()}`;
+    $("calendarSyncText").textContent = `Last synced ${new Date(availability.syncedAt).toLocaleString("en-US")} · busy ${availability.busyBlocks?.length || 0} blocks`;
     card.innerHTML = `
       <div class="kicker">BEST TRAINING WINDOWS</div>
       ${slots.length ? `<div class="slot-list">${slots.map(slot => `
         <div class="slot-item">
           <div>
             <div class="slot-time">${new Date(slot.start).toLocaleDateString("th-TH")} · ${formatTimeRange(slot.start, slot.end)}</div>
-            <div class="panel-text">${slot.minutes} นาทีว่าง</div>
+            <div class="panel-text">${slot.minutes} free minutes</div>
           </div>
           <div class="slot-fit">${fitLabel(slot.minutes)}</div>
-        </div>`).join("")}</div>` : `<div class="panel-text">ยังไม่เจอ slot ว่างยาวพอใน 7 วัน</div>`}
+        </div>`).join("")}</div>` : `<div class="panel-text">No long enough training window found in the next 7 days</div>`}
     `;
   }
   async function syncCalendar(source = "google") {
     if (window.location.protocol === "file:") {
-      throw new Error("ต้องรันผ่าน Netlify หรือ netlify dev ก่อน");
+      throw new Error("Run through Netlify or netlify dev first");
     }
     const now = new Date();
     const end = new Date();
@@ -899,13 +899,13 @@
     const RS = computeReadiness(inputs, metrics);
     const category = inputs.whoop ? categoryFor(RS, metrics.TL, metrics.RD) : "none";
     let sessionType = "Waiting for check-in";
-    let mainFocus = "กรอก WHOOP เพื่อสร้างแผน";
+    let mainFocus = "Enter WHOOP to build a plan";
     let intensity = "-";
     let nutritionKey = "interrupted";
 
     if (inputs.interrupted && inputs.whoop) {
       sessionType = "Micro session / interrupted day";
-      mainFocus = "Putting 15 นาที + mobility";
+      mainFocus = "Putting 15 min + mobility";
       intensity = "Low";
       nutritionKey = "interrupted";
     } else if (category === "peak") {
@@ -915,22 +915,22 @@
       nutritionKey = "high";
     } else if (category === "high") {
       sessionType = "Strength + skill support";
-      mainFocus = "Push ได้ แต่ไม่ต้อง max effort";
+      mainFocus = "You can push, but avoid max effort";
       intensity = "Moderate-High";
       nutritionKey = "high";
     } else if (category === "moderate") {
       sessionType = "One priority technical session";
-      mainFocus = "เลือก 1 priority เท่านั้น";
+      mainFocus = "Choose only 1 priority";
       intensity = "Moderate";
       nutritionKey = "mid";
     } else if (category === "accumulated") {
       sessionType = "Deload / skill only";
-      mainFocus = "คุม volume และลดงานเพิ่ม";
+      mainFocus = "Control volume and avoid extra work";
       intensity = "Low-Moderate";
       nutritionKey = "accumulated";
     } else if (category === "low") {
       sessionType = "Recovery / mobility / feel";
-      mainFocus = "พักเพื่อ performance";
+      mainFocus = "Recover to protect performance";
       intensity = "Low";
       nutritionKey = "low";
     }
@@ -966,7 +966,7 @@
   function renderPlan() {
     const plan = buildPlan();
     const hasPlan = plan.category !== "none";
-    $("sleepDisplay").innerHTML = `${Number(plan.inputs.sleep).toFixed(1)}<span>ชม.</span>`;
+    $("sleepDisplay").innerHTML = `${Number(plan.inputs.sleep).toFixed(1)}<span>h</span>`;
     $("fatigueLabel").textContent = `Fatigue · ${state.fatigue}`;
     $("mentalLabel").textContent = `Mental · ${state.mental}`;
     $("scoreRing").style.setProperty("--score", plan.readinessScore);
@@ -979,17 +979,17 @@
     if (!hasPlan) {
       status.textContent = "CHECK-IN";
       checkin.textContent = "FIRST STEP";
-      $("planTitle").textContent = "กรอก Morning Check-in เพื่อสร้างแผนวันนี้";
-      $("planSubtitle").textContent = "ระบบจะใช้ recovery, sleep, soreness, load และเวลาว่างเพื่อปรับแผนให้เหมาะกับชีวิตจริง";
+      $("planTitle").textContent = "Complete your Morning Check-in to build today's plan";
+      $("planSubtitle").textContent = "Athlete OS uses recovery, sleep, soreness, training load, and real calendar availability to adjust today's plan.";
       $("detailsToggle").style.display = "none";
-      $("todayPlanCard").innerHTML = `<div class="kicker">TODAY PLAN</div><div class="panel-title">รอข้อมูล Check-in</div><div class="panel-text">ใส่ WHOOP Recovery เพื่อปลดล็อกแผนวันนี้</div>`;
+      $("todayPlanCard").innerHTML = `<div class="kicker">TODAY PLAN</div><div class="panel-title">Waiting for check-in</div><div class="panel-text">Enter WHOOP Recovery to unlock today's plan</div>`;
     } else {
       const mood = plan.category === "low" || plan.category === "accumulated" ? "bad" : plan.category === "moderate" ? "warn" : "ready";
       status.classList.add(mood);
       checkin.classList.add("ready");
       status.textContent = plan.category === "peak" ? "PEAK" : plan.category === "high" ? "READY" : plan.category === "moderate" ? "CONTROL" : "RECOVER";
       checkin.textContent = "READY";
-      $("planTitle").textContent = plan.category === "low" ? "วันนี้ควรฟื้นตัว ไม่ใช่ฝืนซ้อมหนัก" : plan.category === "moderate" ? "วันนี้ควรเลือก 1 priority เท่านั้น" : "วันนี้ซ้อมได้ดี ใช้คุณภาพนำปริมาณ";
+      $("planTitle").textContent = plan.category === "low" ? "Today should prioritize recovery, not heavy training" : plan.category === "moderate" ? "Today should focus on 1 priority only" : "Today is a good training day: quality over volume";
       $("planSubtitle").textContent = `Focus: ${plan.mainFocus}`;
       $("detailsToggle").style.display = "block";
       const warning = plan.metrics.RD >= 70 || plan.metrics.TL >= 75 || plan.inputs.soreness >= 4;
@@ -1003,7 +1003,7 @@
           <span class="pill">Intensity ${plan.intensity}</span>
           <span class="pill ${plan.confidence.level === "High" ? "good" : plan.confidence.level === "Medium" ? "warn" : "bad"}">Confidence ${plan.confidence.level}</span>
         </div>
-        ${warning ? `<div class="warning ${mood === "bad" ? "bad" : ""}"><div class="warning-title">วันนี้ต้องคุม volume ให้ฉลาด</div><div class="warning-text">ระบบเห็น TL ${plan.metrics.TL}, RD ${plan.metrics.RD}, soreness ${plan.inputs.soreness}. เลือก 1 priority และอย่าเพิ่มงานเกินแผน.</div></div>` : ""}
+        ${warning ? `<div class="warning ${mood === "bad" ? "bad" : ""}"><div class="warning-title">Control volume intelligently today</div><div class="warning-text">Athlete OS sees TL ${plan.metrics.TL}, RD ${plan.metrics.RD}, soreness ${plan.inputs.soreness}. Choose 1 priority and do not add extra work beyond the plan.</div></div>` : ""}
       `;
     }
 
@@ -1066,7 +1066,7 @@
     const locked = getStore(todayKey("aoLockedTodayPlan_"), null);
     const plan = locked || state.currentPlan || buildPlan();
     if (!locked && plan.category === "none") {
-      $("lockedPlanCard").innerHTML = `<div class="kicker">LOCKED PLAN</div><div class="panel-text">ยังไม่ได้ Lock Today Plan - กลับไปหน้า Today แล้วกรอก Check-in ก่อน</div>`;
+      $("lockedPlanCard").innerHTML = `<div class="kicker">LOCKED PLAN</div><div class="panel-text">No locked plan yet. Go back to Morning and complete your check-in first.</div>`;
       return;
     }
     $("lockedPlanCard").innerHTML = `
@@ -1088,16 +1088,16 @@
     const weight = parseFloat(lift.weight);
     const rir = parseInt(lift.rir, 10);
     let nextWeight = weight;
-    let reason = "คงน้ำหนักเพื่อสะสมคุณภาพ";
+    let reason = "Keep the weight and accumulate quality reps";
     if (lift.form === "bad") {
       nextWeight = Math.max(0, +(weight * 0.9).toFixed(1));
-      reason = "form หลุด ลด 10% เพื่อ reset quality";
+      reason = "Form broke down. Reduce 10% to reset quality";
     } else if (Math.min(...reps) >= 10 && rir >= 2 && lift.form === "good") {
       nextWeight = +(weight * 1.025).toFixed(1);
-      reason = "ครบ top rep range และยังเหลือ RIR ≥2 เพิ่ม 2.5%";
+      reason = "Top rep range completed with RIR >=2. Add 2.5%";
     } else if (Math.min(...reps) < 6 || rir <= 0) {
       nextWeight = +(weight * 0.95).toFixed(1);
-      reason = "reps ตกหรือใกล้ failure เกินไป ลด 5% หรือคงน้ำหนัก";
+      reason = "Reps dropped or effort was too close to failure. Reduce 5% or hold weight";
     }
     return { name: lift.name, nextWeight, reason };
   }
@@ -1113,7 +1113,7 @@
         planResult: state.planResult,
         planFeedback: state.planFeedback,
         gymDay: state.gymDay,
-        miss: selectedValues("missPatternGrid").filter(x => x !== "ไม่มี miss"),
+        miss: selectedValues("missPatternGrid").filter(x => x !== "No miss"),
         adjust: $("postAdjust").value.trim(),
         note: $("postNote").value.trim(),
         mainLift: {
@@ -1140,7 +1140,7 @@
     $("tomorrowCard").innerHTML = `
       <div class="kicker">TOMORROW BASE PLAN</div>
       <div class="panel-title">${loadWarn ? "Recovery / Skill only" : "Moderate technical"}</div>
-      <div class="panel-text">Focus: ${focus}<br>${loadWarn ? "Load หรือ debt สูง ให้ deload ก่อน" : "เช้าจะปรับอีกครั้งตาม WHOOP / sleep"}</div>
+      <div class="panel-text">Focus: ${focus}<br>${loadWarn ? "Load or recovery debt is high. Deload first." : "The morning check-in will adjust this again based on WHOOP and sleep."}</div>
       ${adv ? `<div class="warning"><div class="warning-title">Progressive overload</div><div class="warning-text">${adv.name}: next ${adv.nextWeight}kg - ${adv.reason}</div></div>` : ""}
     `;
   }
@@ -1160,7 +1160,7 @@
     const adv = latestPost ? progressionAdvice(latestPost.mainLift) : null;
     $("progressAdvice").innerHTML = adv
       ? `<div class="kicker">PROGRESSIVE OVERLOAD</div><div class="panel-text">${adv.name}: next ${adv.nextWeight}kg<br>${adv.reason}</div>`
-      : `<div class="kicker">PROGRESSIVE OVERLOAD</div><div class="panel-text">ยังไม่มี main lift log - กรอกใน Review เพื่อให้ระบบแนะนำครั้งถัดไป</div>`;
+      : `<div class="kicker">PROGRESSIVE OVERLOAD</div><div class="panel-text">No main lift log yet. Fill in the Review page to get a next-session recommendation.</div>`;
     renderHistory();
   }
 
@@ -1176,8 +1176,8 @@
     $("countdownDate").textContent = data.date || "-";
     $("countdownEvent").textContent = data.name || "-";
     $("countdownAdvice").innerHTML = Number.isFinite(days)
-      ? `<div class="kicker">TONIGHT SUGGESTION BASE · เช้าจะปรับอีกครั้ง</div><div class="panel-text">${days <= 7 ? "ลด volume, เพิ่ม recovery และซ้อมแบบคุมคุณภาพ" : "ยังมีเวลาสร้าง base ได้ แต่ต้องไม่ชน recovery debt"}</div>`
-      : `<div class="kicker">TONIGHT SUGGESTION BASE · เช้าจะปรับอีกครั้ง</div><div class="panel-text">กรอกวันแข่งเพื่อให้ระบบนับถอยหลังและปรับ training load</div>`;
+      ? `<div class="kicker">TONIGHT SUGGESTION BASE · MORNING WILL ADJUST AGAIN</div><div class="panel-text">${days <= 7 ? "Reduce volume, increase recovery, and keep training quality controlled." : "There is still time to build your base, but do not let recovery debt climb."}</div>`
+      : `<div class="kicker">TONIGHT SUGGESTION BASE · MORNING WILL ADJUST AGAIN</div><div class="panel-text">Enter your event date so Athlete OS can count down and adjust training load.</div>`;
   }
 
   function saveTournament() {
@@ -1246,7 +1246,7 @@
       }
     }
     if (!entries.length) {
-      list.innerHTML = `<div class="panel-text" style="text-align:center;padding:34px 0">ยังไม่มีข้อมูล<br>กรอก Morning Check-in ก่อน</div>`;
+      list.innerHTML = `<div class="panel-text" style="text-align:center;padding:34px 0">No data yet<br>Complete your Morning Check-in first</div>`;
       return;
     }
     entries.sort((a, b) => new Date(b.dateStr) - new Date(a.dateStr));
@@ -1259,7 +1259,7 @@
       if (post.planResult) tags.push(`<span class="tag blue">Plan ${post.planResult}</span>`);
       if (post.planFeedback) tags.push(`<span class="tag ${post.planFeedback === "yes" ? "green" : post.planFeedback === "no" ? "red" : "yellow"}">Feedback ${post.planFeedback}</span>`);
       (post.miss || []).slice(0, 2).forEach(m => tags.push(`<span class="tag blue">${m}</span>`));
-      return `<div class="history-entry"><div class="history-date">${dateStr}</div><div class="tag-row">${tags.join("") || `<span class="panel-text">ข้อมูลไม่ครบ</span>`}</div>${post.note ? `<div class="panel-text" style="margin-top:8px">${post.note}</div>` : ""}</div>`;
+      return `<div class="history-entry"><div class="history-date">${dateStr}</div><div class="tag-row">${tags.join("") || `<span class="panel-text">Incomplete data</span>`}</div>${post.note ? `<div class="panel-text" style="margin-top:8px">${post.note}</div>` : ""}</div>`;
     }).join("");
   }
 
@@ -1347,8 +1347,8 @@
       if (choice) {
         const grid = choice.parentElement;
         if (grid.id === "missPatternGrid") {
-          if (choice.dataset.value === "ไม่มี miss") grid.querySelectorAll(".choice-btn").forEach(btn => btn.classList.remove("selected"));
-          else grid.querySelector('[data-value="ไม่มี miss"]')?.classList.remove("selected");
+          if (choice.dataset.value === "No miss") grid.querySelectorAll(".choice-btn").forEach(btn => btn.classList.remove("selected"));
+          else grid.querySelector('[data-value="No miss"]')?.classList.remove("selected");
           choice.classList.toggle("selected");
         } else {
           grid.querySelectorAll(".choice-btn").forEach(btn => btn.classList.remove("selected"));
@@ -1381,7 +1381,7 @@
     $("addTournamentCalendarBtn").addEventListener("click", addTournamentToCalendar);
     $("connectGoogleBtn").addEventListener("click", () => {
       if (window.location.protocol === "file:") {
-        showToast("ต้องรันผ่าน Netlify ก่อน");
+        showToast("RUN THROUGH NETLIFY FIRST");
         return;
       }
       window.location.href = "/.netlify/functions/google-auth-start";
@@ -1391,13 +1391,13 @@
     });
     $("saveAppleCalendarBtn").addEventListener("click", async () => {
       if (window.location.protocol === "file:") {
-        showToast("ต้องรันผ่าน Netlify ก่อน");
+        showToast("RUN THROUGH NETLIFY FIRST");
         return;
       }
       const username = $("appleCalendarUsername").value.trim();
       const appPassword = $("appleCalendarPassword").value.trim();
       if (!username || !appPassword) {
-        showToast("กรอก Apple credentials ก่อน");
+        showToast("ENTER APPLE CREDENTIALS");
         return;
       }
       try {
