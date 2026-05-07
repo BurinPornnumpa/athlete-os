@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090A12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Athlete OS">
+<link rel="manifest" id="manifestLink">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090A12'/%3E%3Ctext x='32' y='42' font-size='28' font-family='Arial' text-anchor='middle' fill='%2300F5D4'%3EAO%3C/text%3E%3C/svg%3E">
+<title>ATHLETE OS — Burin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Sarabun:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #FF4D6D;
+    --blue: #7B61FF;
+    --black: #090A12;
+    --white: #F8FAFC;
+    --gray: #141625;
+    --muted: #8A90A6;
+    --border: rgba(255,255,255,0.08);
+    --mint: #00F5D4;
+    --yellow: #FFB020;
+    --surface: #10131F;
+    --surface-2: #171B2C;
+    --success: #2EE59D;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+  body {
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow-x: hidden;
+    background:
+      radial-gradient(circle at 15% -10%, rgba(123,97,255,0.22), transparent 35%),
+      radial-gradient(circle at 100% 5%, rgba(0,245,212,0.10), transparent 30%),
+      var(--black);
+    color: var(--white);
+    font-family: "Sarabun", system-ui, sans-serif;
+  }
+  button, input, textarea, select { font: inherit; }
+  button { cursor: pointer; }
+
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px 12px;
+    background: rgba(9,10,18,0.88);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: "Bebas Neue", sans-serif; font-size: 24px; letter-spacing: 2.5px; }
+  .logo span { color: var(--mint); text-shadow: 0 0 18px rgba(0,245,212,0.35); }
+  .date-display { color: var(--muted); font: 11px "IBM Plex Mono", monospace; letter-spacing: 1px; }
+
+  .page { display: none; padding-bottom: 88px; }
+  .page.active { display: block; }
+  .main { max-width: 520px; margin: 0 auto; padding: 18px 16px 96px; }
+  .section { margin-bottom: 16px; animation: fadeUp .28s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font: 9px "IBM Plex Mono", monospace;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+  }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(123,97,255,0.28);
+    border-radius: 26px;
+    padding: 18px;
+    background: linear-gradient(145deg, rgba(123,97,255,0.18), rgba(0,245,212,0.06)), linear-gradient(180deg, #171B2C, #10131F);
+    box-shadow: 0 18px 48px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    right: -90px;
+    top: -90px;
+    background: radial-gradient(circle, rgba(0,245,212,0.18), transparent 65%);
+  }
+  .hero-top { position: relative; display: flex; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .kicker { color: var(--mint); font: 10px "IBM Plex Mono", monospace; letter-spacing: 1.8px; text-transform: uppercase; }
+  .hero-title { margin-top: 4px; font: 34px/0.95 "Bebas Neue", sans-serif; letter-spacing: 1.4px; }
+  .status-pill {
+    align-self: flex-start;
+    white-space: nowrap;
+    padding: 7px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,176,32,.28);
+    background: rgba(255,176,32,.08);
+    color: var(--yellow);
+    font: 10px "IBM Plex Mono", monospace;
+    letter-spacing: 1px;
+  }
+  .status-pill.ready { color: var(--mint); border-color: rgba(0,245,212,.28); background: rgba(0,245,212,.08); }
+  .status-pill.warn { color: var(--yellow); border-color: rgba(255,176,32,.28); background: rgba(255,176,32,.08); }
+  .status-pill.bad { color: var(--red); border-color: rgba(255,77,109,.28); background: rgba(255,77,109,.08); }
+
+  .score-row { position: relative; display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-items: center; }
+  .score-ring {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: conic-gradient(var(--mint) calc(var(--score, 0) * 1%), rgba(255,255,255,0.08) 0);
+    box-shadow: 0 0 32px rgba(0,245,212,0.12);
+  }
+  .score-inner { width: 88px; height: 88px; border-radius: 50%; display: grid; place-items: center; background: #10131F; border: 1px solid rgba(255,255,255,0.07); }
+  .score-number { font: 42px/1 "Bebas Neue", sans-serif; letter-spacing: 1px; }
+  .score-label { margin-top: -10px; color: var(--muted); font: 8px "IBM Plex Mono", monospace; letter-spacing: 1px; text-align: center; }
+  .plan-title { margin-bottom: 7px; font-size: 16px; line-height: 1.35; }
+  .plan-subtitle { color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+  .quick-card, .panel, .review-block, .history-entry, .summary-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    background: linear-gradient(180deg, var(--gray), var(--surface));
+    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+  }
+  .quick-card { position: relative; margin-top: 14px; padding: 13px; background: rgba(255,255,255,0.055); }
+  .qc-top { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+  .qc-title { font-size: 14px; font-weight: 900; line-height: 1.25; }
+  .qc-sub { margin-top: 2px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+  .qc-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 9px; }
+  .field { border: 1px solid rgba(255,255,255,.075); border-radius: 16px; padding: 10px; background: rgba(0,0,0,0.22); }
+  .field-label { margin-bottom: 7px; color: var(--muted); font: 8px "IBM Plex Mono", monospace; letter-spacing: 1px; text-transform: uppercase; }
+  .whoop-row { display: flex; align-items: center; gap: 7px; }
+  .whoop-input {
+    width: 72px;
+    padding: 10px 8px;
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 13px;
+    outline: 0;
+    background: #0C0F19;
+    color: var(--white);
+    font: 22px "IBM Plex Mono", monospace;
+    text-align: center;
+    -moz-appearance: textfield;
+  }
+  .whoop-input::-webkit-inner-spin-button, .whoop-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .whoop-input:focus, .metric-input:focus, .single-input:focus, .text-input:focus, .select:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(0,245,212,.08); outline: none; }
+  .suffix { color: var(--muted); font: 12px "IBM Plex Mono", monospace; }
+  .sleep-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .sleep-value { font: 24px/1 "Bebas Neue", sans-serif; }
+  .sleep-value span { margin-left: 2px; color: var(--muted); font: 11px "Sarabun", sans-serif; }
+  input[type="range"] { width: 100%; height: 4px; border-radius: 2px; outline: none; -webkit-appearance: none; background: rgba(255,255,255,0.12); }
+  input[type="range"]::-webkit-slider-thumb { width: 18px; height: 18px; border-radius: 50%; -webkit-appearance: none; background: var(--mint); box-shadow: 0 0 18px rgba(0,245,212,0.4); }
+  .chip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 9px; }
+  .dot-row { display: flex; gap: 5px; }
+  .dot-btn {
+    flex: 1;
+    min-width: 0;
+    height: 28px;
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 999px;
+    background: rgba(255,255,255,.035);
+    color: var(--muted);
+    font: 10px "IBM Plex Mono", monospace;
+  }
+  .dot-btn.selected { background: var(--blue); border-color: var(--blue); color: var(--white); }
+  .actions { display: flex; gap: 8px; margin-top: 10px; }
+  .primary-btn, .ghost-btn, .save-btn {
+    border: 0;
+    border-radius: 16px;
+    padding: 12px 10px;
+    font-weight: 900;
+  }
+  .primary-btn, .save-btn { flex: 1.2; background: linear-gradient(135deg, var(--mint), #8CFFE9); color: #06100E; }
+  .ghost-btn { flex: .8; background: rgba(255,255,255,.07); color: var(--white); border: 1px solid rgba(255,255,255,.085); }
+  .save-btn { width: 100%; margin-top: 6px; padding: 15px; font-size: 15px; }
+
+  .mini-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .metric-input, .single-input, .text-input, .select {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 14px;
+    background: #0C0F19;
+    color: var(--white);
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+  .text-input { min-height: 72px; resize: vertical; }
+  .hint { margin-top: 6px; color: #596073; font: 10px "IBM Plex Mono", monospace; line-height: 1.4; }
+  .panel { padding: 14px; margin-top: 12px; }
+  .panel-title { font-weight: 900; font-size: 14px; margin-bottom: 6px; }
+  .panel-text { color: var(--muted); font-size: 12px; line-height: 1.55; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .pill {
+    padding: 4px 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    background: rgba(0,0,0,0.22);
+    color: #B8BECE;
+    font: 9px "IBM Plex Mono", monospace;
+  }
+  .pill.good { color: var(--mint); border-color: rgba(0,245,212,0.25); background: rgba(0,245,212,0.08); }
+  .pill.warn { color: var(--yellow); border-color: rgba(255,176,32,0.25); background: rgba(255,176,32,0.08); }
+  .pill.bad { color: var(--red); border-color: rgba(255,77,109,0.25); background: rgba(255,77,109,0.08); }
+  .warning {
+    margin-top: 10px;
+    padding: 11px 12px;
+    border: 1px solid rgba(255,176,32,0.25);
+    border-left: 3px solid var(--yellow);
+    border-radius: 16px;
+    background: rgba(255,176,32,0.09);
+  }
+  .warning.bad { border-color: rgba(255,77,109,0.24); border-left-color: var(--red); background: rgba(255,77,109,0.10); }
+  .warning-title { font-size: 13px; font-weight: 900; margin-bottom: 3px; }
+  .warning-text { color: #D8D2FF; font-size: 12px; line-height: 1.55; }
+  .detail-toggle {
+    display: none;
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 6px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .details-panel { display: none; }
+  .details-panel.open { display: block; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .detail-box { border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 10px; background: rgba(255,255,255,0.045); }
+  .detail-label { color: var(--muted); font: 8px "IBM Plex Mono", monospace; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .detail-value { color: var(--white); font-size: 12px; line-height: 1.45; }
+
+  .review-block { padding: 14px; margin-bottom: 10px; }
+  .review-q { margin-bottom: 8px; color: var(--muted); font: 11px "IBM Plex Mono", monospace; letter-spacing: .5px; }
+  .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .choice-btn {
+    min-height: 40px;
+    padding: 8px 6px;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 14px;
+    background: #0C0F19;
+    color: #AAB1C4;
+    font-size: 11px;
+  }
+  .choice-btn.selected { background: var(--blue); border-color: var(--blue); color: var(--white); }
+
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .summary-card { padding: 14px; }
+  .summary-label { margin-bottom: 6px; color: var(--muted); font: 8px "IBM Plex Mono", monospace; letter-spacing: 1.2px; text-transform: uppercase; }
+  .summary-value { font: 30px/1 "Bebas Neue", sans-serif; }
+  .summary-note { margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+  .history-entry { padding: 12px 14px; margin-bottom: 8px; }
+  .history-date { margin-bottom: 6px; color: var(--muted); font: 10px "IBM Plex Mono", monospace; letter-spacing: 1px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { padding: 2px 8px; border-radius: 2px; font: 11px "IBM Plex Mono", monospace; }
+  .tag.green { background: rgba(34,197,94,0.1); color: var(--mint); }
+  .tag.yellow { background: rgba(234,179,8,0.1); color: var(--yellow); }
+  .tag.red { background: rgba(232,48,42,0.1); color: var(--red); }
+  .tag.blue { background: rgba(26,58,219,0.15); color: #6B8EFF; }
+
+  .sync-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .calendar-fields { display: grid; gap: 8px; margin-top: 10px; }
+  .calendar-fields[hidden] { display: none; }
+  .slot-list { display: grid; gap: 8px; margin-top: 10px; }
+  .slot-item { display: flex; justify-content: space-between; gap: 10px; padding: 10px; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; background: rgba(0,0,0,0.20); }
+  .slot-time { color: var(--white); font: 11px "IBM Plex Mono", monospace; }
+  .slot-fit { color: var(--mint); font-size: 12px; font-weight: 800; text-align: right; }
+
+  .bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    gap: 5px;
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    background: rgba(9,10,18,0.90);
+    backdrop-filter: blur(18px);
+  }
+  .nav-item { flex: 1; border: 0; border-radius: 16px; background: none; color: var(--muted); padding: 9px 6px; }
+  .nav-item.active { color: var(--mint); background: rgba(0,245,212,0.08); }
+  .nav-icon { display: block; margin-bottom: 2px; font-size: 17px; }
+  .nav-label { font: 8px "IBM Plex Mono", monospace; letter-spacing: .7px; text-transform: uppercase; }
+
+  .sticky-action-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    z-index: 99;
+    padding: 10px 14px;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent, rgba(9,10,18,0.94) 45%);
+  }
+  .sticky-action-bar.hidden { display: none; }
+  .sticky-inner { max-width: 520px; margin: 0 auto; pointer-events: auto; }
+  .sticky-btn { width: 100%; border: 0; border-radius: 18px; padding: 15px 14px; background: linear-gradient(135deg,var(--mint),#8CFFE9); color: #06100E; font-weight: 900; font-size: 14px; box-shadow: 0 14px 30px rgba(0,245,212,0.17); }
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 90px;
+    z-index: 200;
+    transform: translateX(-50%) translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all .25s ease;
+    border-radius: 999px;
+    padding: 10px 24px;
+    background: var(--mint);
+    color: #06100E;
+    font: 12px "IBM Plex Mono", monospace;
+    letter-spacing: 1px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 390px) {
+    .main { padding: 12px 14px 96px; }
+    .score-row { grid-template-columns: 96px 1fr; gap: 12px; }
+    .score-ring { width: 96px; height: 96px; }
+    .score-inner { width: 76px; height: 76px; }
+    .score-number { font-size: 36px; }
+    .hero-title { font-size: 29px; }
+    .qc-grid, .chip-grid, .detail-grid, .summary-grid { grid-template-columns: 1fr; }
+    .actions { flex-direction: column; }
+    .btn-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">ATHLETE<span>OS</span></div>
+    <div class="date-display" id="headerDate">-</div>
+  </header>
+
+  <section class="page active" id="page-morning">
+    <main class="main">
+      <div class="section">
+        <div class="hero" id="hero">
+          <div class="hero-top">
+            <div>
+              <div class="kicker">BASE PLAN จากคืนที่แล้ว</div>
+              <div class="hero-title">TODAY'S DECISION</div>
+            </div>
+            <div class="status-pill" id="statusBadge">CHECK-IN</div>
+          </div>
+
+          <div class="score-row">
+            <div class="score-ring" id="scoreRing" style="--score:0">
+              <div class="score-inner">
+                <div>
+                  <div class="score-number" id="readinessNumber">-</div>
+                  <div class="score-label">READY</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h1 class="plan-title" id="planTitle">กรอก Morning Check-in เพื่อสร้างแผนวันนี้</h1>
+              <p class="plan-subtitle" id="planSubtitle">ระบบจะใช้ recovery, sleep, soreness, load และเวลาว่างเพื่อปรับแผนให้เหมาะกับชีวิตจริง</p>
+            </div>
+          </div>
+
+          <div class="quick-card">
+            <div class="qc-top">
+              <div>
+                <div class="qc-title">SLEEP & READINESS</div>
+                <div class="qc-sub">WHOOP % Sleep ✓ ความล้า ความพร้อม</div>
+              </div>
+              <div class="status-pill" id="checkinStatus">FIRST STEP</div>
+            </div>
+            <div class="qc-grid">
+              <div class="field">
+                <div class="field-label">WHOOP Recovery</div>
+                <div class="whoop-row">
+                  <input class="whoop-input" id="whoopScore" type="number" min="0" max="100" inputmode="numeric" placeholder="?">
+                  <span class="suffix">%</span>
+                </div>
+              </div>
+              <div class="field">
+                <div class="sleep-head">
+                  <div class="field-label" style="margin-bottom:0">Sleep</div>
+                  <div class="sleep-value" id="sleepDisplay">6.0<span>ชม.</span></div>
+                </div>
+                <input id="sleepSlider" type="range" min="3" max="10" step="0.5" value="6">
+              </div>
+            </div>
+            <div class="chip-grid">
+              <div class="field">
+                <div class="field-label" id="fatigueLabel">Fatigue · 3</div>
+                <div class="dot-row" data-dot-group="fatigue"></div>
+              </div>
+              <div class="field">
+                <div class="field-label" id="mentalLabel">Mental · 3</div>
+                <div class="dot-row" data-dot-group="mental"></div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="primary-btn" id="saveMorningBtn">Save & Recalculate</button>
+              <button class="ghost-btn" id="advancedToggleBtn">Advanced</button>
+            </div>
+            <div class="hint">Advanced = HRV, RHR, soreness, work stress, sport load และ available time.</div>
+          </div>
+
+          <div class="panel" id="advancedPanel" hidden>
+            <div class="section-label">Advanced Inputs</div>
+            <div class="mini-grid">
+              <input class="metric-input" id="hrvInput" type="number" min="0" max="220" placeholder="HRV">
+              <input class="metric-input" id="rhrInput" type="number" min="0" max="120" placeholder="RHR">
+              <input class="metric-input" id="sorenessInput" type="number" min="1" max="5" placeholder="Soreness 1-5">
+              <input class="metric-input" id="workStressInput" type="number" min="1" max="5" placeholder="Work 1-5">
+              <select class="select" id="availabilityInput">
+                <option value="30">30 นาที</option>
+                <option value="45">45 นาที</option>
+                <option value="60" selected>60 นาที</option>
+                <option value="90">90 นาที</option>
+                <option value="120">120+ นาที</option>
+              </select>
+              <select class="select" id="todaySportLoad">
+                <option value="0">วันนี้ไม่มี sport load</option>
+                <option value="25">Sport light</option>
+                <option value="50">Sport hard</option>
+                <option value="75">Golf hard / 18 holes</option>
+              </select>
+              <select class="select" id="yesterdaySportLoad">
+                <option value="0">เมื่อวานไม่มี sport load</option>
+                <option value="25">Y sport light</option>
+                <option value="50">Y sport hard</option>
+                <option value="75">Y golf hard / 18 holes</option>
+              </select>
+              <select class="select" id="interruptInput">
+                <option value="0">ไม่มีโปรแกรมแทรก</option>
+                <option value="1">มีโปรแกรมแทรกวันนี้</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="panel" id="todayPlanCard">
+            <div class="kicker">TODAY PLAN</div>
+            <div class="panel-title">รอข้อมูล Check-in</div>
+            <div class="panel-text">ใส่ WHOOP Recovery เพื่อปลดล็อกแผนวันนี้</div>
+          </div>
+
+          <button class="detail-toggle" id="detailsToggle">View plan details</button>
+          <div class="details-panel" id="detailsPanel"></div>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <section class="page" id="page-pre">
+    <main class="main">
+      <div class="section">
+        <div class="section-label">Today's Focus</div>
+        <div class="panel" id="lockedPlanCard"></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Nutrition Plan</div>
+        <div class="panel" id="nutritionCard"></div>
+      </div>
+      <div class="section">
+        <div class="section-label">Set Your Win</div>
+        <div class="review-block">
+          <div class="review-q">วันนี้ถือว่าสำเร็จถ้า... (1 อย่าง วัดได้จริง)</div>
+          <input class="single-input" id="preSuccess" type="text" placeholder="เช่น approach เข้า target zone 7/10 ครั้ง">
+        </div>
+        <button class="save-btn" data-save-section="pre">LOCK IN & GO</button>
+      </div>
+    </main>
+  </section>
+
+  <section class="page" id="page-post">
+    <main class="main">
+      <div class="section">
+        <div class="section-label">Post-Session Review</div>
+        <div class="review-block">
+          <div class="review-q">วันนี้ทำ Gym ไหม?</div>
+          <div class="btn-grid" id="gymGrid">
+            <button class="choice-btn" data-value="legs">Legs</button>
+            <button class="choice-btn" data-value="push">Push</button>
+            <button class="choice-btn" data-value="pull">Pull</button>
+            <button class="choice-btn" data-value="full">Full Body</button>
+            <button class="choice-btn" data-value="cardio">Cardio</button>
+            <button class="choice-btn" data-value="none">ไม่ได้ gym</button>
+          </div>
+        </div>
+        <div class="review-block">
+          <div class="review-q">Progressive Overload Log</div>
+          <div class="mini-grid">
+            <input class="metric-input" id="mainLiftName" type="text" placeholder="เช่น Barbell RDL">
+            <input class="metric-input" id="mainLiftWeight" type="number" min="0" placeholder="kg">
+            <input class="metric-input" id="mainLiftReps" type="text" placeholder="reps เช่น 8,8,8">
+            <input class="metric-input" id="mainLiftRIR" type="number" min="0" max="5" placeholder="RIR">
+          </div>
+          <select class="select" id="mainLiftForm" style="margin-top:8px">
+            <option value="good">Form ดี / คุมได้</option>
+            <option value="ok">Form พอใช้</option>
+            <option value="bad">Form หลุด / เสี่ยงเจ็บ</option>
+          </select>
+        </div>
+        <div class="review-block">
+          <div class="review-q">ทำตามแผนไหม?</div>
+          <div class="btn-grid" id="planResultGrid">
+            <button class="choice-btn" data-value="yes">ใช่</button>
+            <button class="choice-btn" data-value="partial">บางส่วน</button>
+            <button class="choice-btn" data-value="no">ไม่ได้</button>
+          </div>
+        </div>
+        <div class="review-block">
+          <div class="review-q">MISS PATTERN วันนี้</div>
+          <div class="btn-grid" id="missPatternGrid">
+            <button class="choice-btn" data-value="Driver ซ้าย">Driver ซ้าย</button>
+            <button class="choice-btn" data-value="Driver ขวา">Driver ขวา</button>
+            <button class="choice-btn" data-value="Approach สั้น">Approach สั้น</button>
+            <button class="choice-btn" data-value="Approach ยาว">Approach ยาว</button>
+            <button class="choice-btn" data-value="Chip พลาด">Chip พลาด</button>
+            <button class="choice-btn" data-value="Putt speed">Putt speed</button>
+            <button class="choice-btn" data-value="Mental หลุด">Mental หลุด</button>
+            <button class="choice-btn" data-value="ไม่มี miss">ไม่มี miss</button>
+          </div>
+        </div>
+        <div class="review-block">
+          <div class="review-q">แผนที่ระบบแนะนำวันนี้ช่วยได้ไหม?</div>
+          <div class="btn-grid" id="feedbackGrid">
+            <button class="choice-btn" data-value="yes">ช่วย</button>
+            <button class="choice-btn" data-value="no">ไม่ช่วย</button>
+            <button class="choice-btn" data-value="unsure">ไม่แน่ใจ</button>
+          </div>
+        </div>
+        <div class="review-block">
+          <div class="review-q">พรุ่งนี้ปรับ 1 อย่าง</div>
+          <input class="single-input" id="postAdjust" type="text" placeholder="เช่น เพิ่ม wedge distance drill">
+        </div>
+        <div class="review-block">
+          <div class="review-q">โน้ตเพิ่มเติม</div>
+          <textarea class="text-input" id="postNote" placeholder="ความรู้สึก, จุดดี, สิ่งที่อยากจำ..."></textarea>
+        </div>
+        <button class="save-btn" data-save-section="post">SAVE REVIEW</button>
+        <div class="panel" id="tomorrowCard" style="display:none"></div>
+      </div>
+    </main>
+  </section>
+
+  <section class="page" id="page-progress">
+    <main class="main">
+      <div class="section">
+        <div class="section-label">Tournament Countdown</div>
+        <div class="panel">
+          <div class="kicker">Calendar Sync</div>
+          <div class="panel-title" id="calendarSyncTitle">เชื่อม Calendar เพื่อหาเวลาว่าง</div>
+          <div class="panel-text" id="calendarSyncText">ดึง busy/free blocks จาก calendar แล้วให้ Athlete OS ปรับ available time และแนะนำ slot ซ้อมที่เหมาะกับ recovery วันนี้</div>
+          <div class="sync-row">
+            <button class="primary-btn" id="connectGoogleBtn" type="button">Connect Google</button>
+            <button class="ghost-btn" id="connectAppleBtn" type="button">Connect Apple</button>
+          </div>
+          <div class="calendar-fields" id="appleCalendarFields" hidden>
+            <input class="single-input" id="appleCalendarUsername" type="email" autocomplete="username" placeholder="Apple ID email">
+            <input class="single-input" id="appleCalendarPassword" type="password" autocomplete="current-password" placeholder="Apple app-specific password">
+            <button class="save-btn" id="saveAppleCalendarBtn" type="button">SAVE APPLE CALENDAR</button>
+          </div>
+          <div class="sync-row">
+            <button class="ghost-btn" id="syncCalendarBtn" type="button">Sync Availability</button>
+            <button class="ghost-btn" id="clearCalendarBtn" type="button">Clear</button>
+          </div>
+          <div class="panel" id="calendarAvailabilityCard"></div>
+        </div>
+        <div class="review-block">
+          <div class="review-q">วันแข่ง / สอบโปร</div>
+          <input class="single-input" id="tournamentDate" type="date">
+        </div>
+        <div class="review-block">
+          <div class="review-q">ชื่อ / รายการ</div>
+          <input class="single-input" id="tournamentName" type="text" placeholder="เช่น Qualifying School / Pro Test">
+        </div>
+        <button class="save-btn" id="saveTournamentBtn">SAVE COUNTDOWN</button>
+        <button class="ghost-btn" id="addTournamentCalendarBtn" style="width:100%;margin-top:8px">+ เพิ่มใน Calendar</button>
+        <div class="summary-grid" style="margin-top:12px">
+          <div class="summary-card"><div class="summary-label">Days Remaining</div><div class="summary-value" id="daysRemaining">-</div><div class="summary-note" id="countdownDate">-</div></div>
+          <div class="summary-card"><div class="summary-label">Event</div><div class="summary-value" id="countdownEvent" style="font-size:22px">-</div><div class="summary-note">Target date</div></div>
+        </div>
+        <div class="panel" id="countdownAdvice"></div>
+      </div>
+    </main>
+  </section>
+
+  <section class="page" id="page-profile">
+    <main class="main">
+      <div class="section">
+        <div class="section-label">Training Log</div>
+        <div class="summary-grid">
+          <div class="summary-card"><div class="summary-label">Readiness</div><div class="summary-value" id="progressRS">-</div><div class="summary-note">ล่าสุด</div></div>
+          <div class="summary-card"><div class="summary-label">7D Load</div><div class="summary-value" id="progressTL">-</div><div class="summary-note" id="progressRD">Recovery debt -</div></div>
+        </div>
+        <div class="panel" id="progressAdvice"></div>
+        <div id="historyList" style="margin-top:12px"></div>
+      </div>
+    </main>
+  </section>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-page="morning"><span class="nav-icon">☀️</span><span class="nav-label">Morning</span></button>
+    <button class="nav-item" data-page="pre"><span class="nav-icon">⚡</span><span class="nav-label">Pre</span></button>
+    <button class="nav-item" data-page="post"><span class="nav-icon">✓</span><span class="nav-label">Post</span></button>
+    <button class="nav-item" data-page="progress"><span class="nav-icon">⌁</span><span class="nav-label">Countdown</span></button>
+    <button class="nav-item" data-page="profile"><span class="nav-icon">≡</span><span class="nav-label">Log</span></button>
+  </nav>
+
+  <div class="sticky-action-bar" id="stickyActionBar">
+    <div class="sticky-inner"><button class="sticky-btn" id="stickyMainBtn">Start Today's Plan</button></div>
+  </div>
+  <div class="toast" id="toast">SAVED</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = (id) => document.getElementById(id);
+  const state = {
+    fatigue: 3,
+    mental: 3,
+    gymDay: null,
+    planResult: null,
+    planFeedback: null,
+    currentPlan: null
+  };
+  const DEFAULT_PROFILE = { sessionTime: "60", weight: 67 };
+  const gymWeight = { legs: 8, push: 6, pull: 5, full: 10, cardio: 4, none: 0 };
+
+  const nutritionPlans = {
+    high: { label: "PUSH DAY FUEL", body: "Protein 110-150g/วัน + carb ก่อน/หลังซ้อม. หลีกเลี่ยงซ้อมตอนท้องว่าง." },
+    mid: { label: "MODERATE DAY FUEL", body: "กินปกติ 3 มื้อ เน้น protein พอและ carb ก่อนซ้อมเล็กน้อย." },
+    low: { label: "RECOVERY DAY FUEL", body: "ลด carb หนัก เน้นปลา ไข่ ผัก ผลไม้ น้ำ 2 ลิตร และลด caffeine." },
+    accumulated: { label: "HIGH LOAD RECOVERY FUEL", body: "เติมน้ำ/electrolyte เน้น anti-inflammatory และห้ามกดคาเฟอีนเยอะช่วงเย็น." },
+    interrupted: { label: "NORMAL DAY FUEL", body: "กินปกติ ไม่มีข้อกำหนดพิเศษ แค่ไม่ข้ามมื้อหลัก." }
+  };
+
+  function safeParse(raw, fallback) {
+    try {
+      if (!raw) return fallback;
+      return JSON.parse(raw);
+    } catch {
+      return fallback;
+    }
+  }
+  function getStore(key, fallback) {
+    try { return safeParse(localStorage.getItem(key), fallback); }
+    catch { return fallback; }
+  }
+  function setStore(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch { return false; }
+  }
+  function clamp(value, min, max, fallback) {
+    const n = Number(value);
+    if (!Number.isFinite(n)) return fallback;
+    return Math.max(min, Math.min(max, n));
+  }
+  function todayKey(prefix) {
+    return prefix + new Date().toDateString();
+  }
+  function dayKey(daysAgo, prefix) {
+    const d = new Date();
+    d.setDate(d.getDate() - daysAgo);
+    return prefix + d.toDateString();
+  }
+  function getProfile() {
+    return { ...DEFAULT_PROFILE, ...getStore("aoProfile", DEFAULT_PROFILE) };
+  }
+  function showToast(text = "SAVED") {
+    const toast = $("toast");
+    toast.textContent = text;
+    toast.classList.add("show");
+    window.setTimeout(() => toast.classList.remove("show"), 1600);
+  }
+  function getCalendarSuggestion() {
+    const availability = getStore("aoCalendarAvailability", null);
+    if (!availability || !Array.isArray(availability.freeSlots)) return 0;
+    const today = new Date().toDateString();
+    const slot = availability.freeSlots.find(item => new Date(item.start).toDateString() === today);
+    return slot ? Math.min(180, Math.max(15, Math.round(slot.minutes))) : 0;
+  }
+  function formatTimeRange(start, end) {
+    const opts = { hour: "2-digit", minute: "2-digit" };
+    return `${new Date(start).toLocaleTimeString("th-TH", opts)}-${new Date(end).toLocaleTimeString("th-TH", opts)}`;
+  }
+  function fitLabel(minutes) {
+    if (minutes >= 90) return "Full session";
+    if (minutes >= 60) return "Main training";
+    if (minutes >= 45) return "Focused block";
+    if (minutes >= 25) return "Micro session";
+    return "Recovery only";
+  }
+  function buildFreeSlots(busyBlocks, days = 7) {
+    const slots = [];
+    for (let i = 0; i < days; i++) {
+      const day = new Date();
+      day.setDate(day.getDate() + i);
+      day.setHours(0, 0, 0, 0);
+      const windowStart = new Date(day);
+      windowStart.setHours(6, 0, 0, 0);
+      const windowEnd = new Date(day);
+      windowEnd.setHours(21, 0, 0, 0);
+      const busy = busyBlocks
+        .map(block => ({ start: new Date(block.start), end: new Date(block.end) }))
+        .filter(block => block.end > windowStart && block.start < windowEnd)
+        .sort((a, b) => a.start - b.start);
+      let cursor = windowStart;
+      busy.forEach(block => {
+        const start = new Date(Math.max(cursor.getTime(), windowStart.getTime()));
+        const end = new Date(Math.min(block.start.getTime(), windowEnd.getTime()));
+        const minutes = Math.round((end - start) / 60000);
+        if (minutes >= 25) slots.push({ start: start.toISOString(), end: end.toISOString(), minutes });
+        if (block.end > cursor) cursor = block.end;
+      });
+      const tailMinutes = Math.round((windowEnd - cursor) / 60000);
+      if (tailMinutes >= 25) slots.push({ start: cursor.toISOString(), end: windowEnd.toISOString(), minutes: tailMinutes });
+    }
+    return slots.sort((a, b) => b.minutes - a.minutes).slice(0, 8);
+  }
+  function renderCalendarAvailability() {
+    const card = $("calendarAvailabilityCard");
+    if (!card) return;
+    const availability = getStore("aoCalendarAvailability", null);
+    if (!availability) {
+      card.innerHTML = `<div class="kicker">AVAILABILITY</div><div class="panel-text">ยังไม่ได้ sync calendar</div>`;
+      return;
+    }
+    const slots = availability.freeSlots || [];
+    const source = availability.source || "calendar";
+    $("calendarSyncTitle").textContent = `เชื่อมแล้ว: ${source.toUpperCase()}`;
+    $("calendarSyncText").textContent = `Sync ล่าสุด ${new Date(availability.syncedAt).toLocaleString("th-TH")} · busy ${availability.busyBlocks?.length || 0} blocks`;
+    card.innerHTML = `
+      <div class="kicker">BEST TRAINING WINDOWS</div>
+      ${slots.length ? `<div class="slot-list">${slots.map(slot => `
+        <div class="slot-item">
+          <div>
+            <div class="slot-time">${new Date(slot.start).toLocaleDateString("th-TH")} · ${formatTimeRange(slot.start, slot.end)}</div>
+            <div class="panel-text">${slot.minutes} นาทีว่าง</div>
+          </div>
+          <div class="slot-fit">${fitLabel(slot.minutes)}</div>
+        </div>`).join("")}</div>` : `<div class="panel-text">ยังไม่เจอ slot ว่างยาวพอใน 7 วัน</div>`}
+    `;
+  }
+  async function syncCalendar(source = "google") {
+    if (window.location.protocol === "file:") {
+      throw new Error("ต้องรันผ่าน Netlify หรือ netlify dev ก่อน");
+    }
+    const now = new Date();
+    const end = new Date();
+    end.setDate(end.getDate() + 7);
+    const response = await fetch(`/.netlify/functions/calendar-freebusy?source=${encodeURIComponent(source)}&timeMin=${encodeURIComponent(now.toISOString())}&timeMax=${encodeURIComponent(end.toISOString())}`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Calendar sync failed");
+    const busyBlocks = data.busyBlocks || [];
+    const payload = {
+      source: data.source || source,
+      busyBlocks,
+      freeSlots: buildFreeSlots(busyBlocks),
+      syncedAt: new Date().toISOString()
+    };
+    setStore("aoCalendarAvailability", payload);
+    setStore("aoCalendarSource", payload.source);
+    const todaySlot = payload.freeSlots.find(slot => new Date(slot.start).toDateString() === new Date().toDateString());
+    if (todaySlot) $("availabilityInput").value = String(Math.min(120, Math.max(30, Math.round(todaySlot.minutes / 15) * 15)));
+    renderCalendarAvailability();
+    renderPlan();
+    showToast("CALENDAR SYNCED");
+  }
+
+  function updateDate() {
+    const now = new Date();
+    const D = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+    const M = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+    $("headerDate").textContent = `${D[now.getDay()]} ${now.getDate()} ${M[now.getMonth()]} · ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  }
+
+  function getInputs() {
+    const calendarMinutes = getCalendarSuggestion();
+    return {
+      whoop: clamp($("whoopScore").value, 0, 100, 0),
+      sleep: clamp($("sleepSlider").value, 3, 10, 6),
+      fatigue: clamp(state.fatigue, 1, 5, 3),
+      mental: clamp(state.mental, 1, 5, 3),
+      hrv: clamp($("hrvInput").value, 0, 220, 0),
+      rhr: clamp($("rhrInput").value, 0, 120, 0),
+      soreness: clamp($("sorenessInput").value, 1, 5, 3),
+      workStress: clamp($("workStressInput").value, 1, 5, 3),
+      availability: calendarMinutes || clamp($("availabilityInput").value, 15, 180, 60),
+      todaySportLoad: clamp($("todaySportLoad").value, 0, 100, 0),
+      yesterdaySportLoad: clamp($("yesterdaySportLoad").value, 0, 100, 0),
+      interrupted: $("interruptInput").value === "1"
+    };
+  }
+
+  function compute7DayMetrics() {
+    let tl = 0;
+    let rd = 0;
+    let whoopSum = 0;
+    let whoopCount = 0;
+    let sleepSum = 0;
+    let sleepCount = 0;
+    for (let i = 1; i <= 7; i++) {
+      const morning = getStore(dayKey(i, "aoMorning_"), {});
+      const post = getStore(dayKey(i, "ao_post_"), {});
+      const weight = i <= 3 ? 4 - i : 1;
+      if (post.planResult === "yes") tl += 10 * weight;
+      if (post.planResult === "partial") tl += 6 * weight;
+      tl += (gymWeight[post.gymDay] || 0) * weight;
+      const wh = parseInt(morning.whoop, 10);
+      const sl = parseFloat(morning.sleep);
+      const ft = parseInt(morning.fatigue, 10);
+      if (Number.isFinite(wh) && wh > 0) {
+        whoopSum += wh;
+        whoopCount++;
+        if (wh < 34) rd += 12 * weight;
+        else if (wh < 66) rd += 5 * weight;
+      }
+      if (Number.isFinite(sl) && sl > 0) {
+        sleepSum += sl;
+        sleepCount++;
+        if (sl < 5) rd += 12 * weight;
+        else if (sl < 6.5) rd += 6 * weight;
+        else if (sl < 7.5) rd += 2 * weight;
+      }
+      if (Number.isFinite(ft) && ft >= 4) rd += 8 * weight;
+    }
+    const inputs = getInputs();
+    tl += Math.round((inputs.yesterdaySportLoad * 0.45 + inputs.todaySportLoad * 0.25) * 0.35);
+    if (inputs.soreness >= 5) rd += 22;
+    else if (inputs.soreness >= 4) rd += 14;
+    else if (inputs.soreness >= 3) rd += 5;
+    if (inputs.workStress >= 5) rd += 14;
+    else if (inputs.workStress >= 4) rd += 8;
+    return {
+      TL: Math.min(100, Math.round(tl / 2)),
+      RD: Math.min(100, Math.round(rd / 3)),
+      whoopAvg: whoopCount ? Math.round(whoopSum / whoopCount) : 50,
+      sleepAvg: sleepCount ? (sleepSum / sleepCount).toFixed(1) : "6.0"
+    };
+  }
+
+  function computeReadiness(inputs, metrics) {
+    if (!inputs.whoop) return 0;
+    let score = 0;
+    score += (inputs.whoop / 100) * 30;
+    score += (Math.min(inputs.sleep, 9) / 9) * 16;
+    score += ((5 - inputs.fatigue) / 4) * 14;
+    score += (inputs.mental / 5) * 10;
+    score += inputs.hrv > 0 ? Math.max(0, Math.min(10, (inputs.hrv - 35) / 5)) : 6;
+    score += inputs.rhr > 0 ? Math.max(0, Math.min(8, (70 - inputs.rhr) / 3)) : 5;
+    score -= (metrics.TL / 100) * 12;
+    score -= (metrics.RD / 100) * 14;
+    score -= Math.max(0, inputs.soreness - 2) * 5;
+    score -= Math.max(0, inputs.workStress - 3) * 3;
+    return Math.max(0, Math.min(100, Math.round(score)));
+  }
+
+  function categoryFor(RS, TL, RD) {
+    if (RS < 45 || RD >= 70) return "low";
+    if (TL >= 75 && RS < 60) return "accumulated";
+    if (RS >= 75 && TL <= 50 && RD <= 40) return "peak";
+    if (RS >= 65 && TL <= 65) return "high";
+    return "moderate";
+  }
+
+  function confidence(inputs) {
+    const checks = [
+      inputs.whoop > 0,
+      inputs.sleep > 0,
+      inputs.soreness >= 1,
+      inputs.workStress >= 1,
+      inputs.availability > 0,
+      inputs.yesterdaySportLoad > 0 || getStore(dayKey(1, "ao_post_"), {}).planResult,
+      inputs.hrv > 0,
+      inputs.rhr > 0
+    ];
+    const count = checks.filter(Boolean).length;
+    return {
+      level: count >= 6 ? "High" : count >= 4 ? "Medium" : "Low",
+      score: Math.round((count / checks.length) * 100)
+    };
+  }
+
+  function buildPlan() {
+    const inputs = getInputs();
+    const metrics = compute7DayMetrics();
+    const RS = computeReadiness(inputs, metrics);
+    const category = inputs.whoop ? categoryFor(RS, metrics.TL, metrics.RD) : "none";
+    let sessionType = "Waiting for check-in";
+    let mainFocus = "กรอก WHOOP เพื่อสร้างแผน";
+    let intensity = "-";
+    let nutritionKey = "interrupted";
+
+    if (inputs.interrupted && inputs.whoop) {
+      sessionType = "Micro session / interrupted day";
+      mainFocus = "Putting 15 นาที + mobility";
+      intensity = "Low";
+      nutritionKey = "interrupted";
+    } else if (category === "peak") {
+      sessionType = inputs.availability >= 90 ? "Full technical + strength support" : "High-quality focused session";
+      mainFocus = "Quality performance session";
+      intensity = "High";
+      nutritionKey = "high";
+    } else if (category === "high") {
+      sessionType = "Strength + skill support";
+      mainFocus = "Push ได้ แต่ไม่ต้อง max effort";
+      intensity = "Moderate-High";
+      nutritionKey = "high";
+    } else if (category === "moderate") {
+      sessionType = "One priority technical session";
+      mainFocus = "เลือก 1 priority เท่านั้น";
+      intensity = "Moderate";
+      nutritionKey = "mid";
+    } else if (category === "accumulated") {
+      sessionType = "Deload / skill only";
+      mainFocus = "คุม volume และลดงานเพิ่ม";
+      intensity = "Low-Moderate";
+      nutritionKey = "accumulated";
+    } else if (category === "low") {
+      sessionType = "Recovery / mobility / feel";
+      mainFocus = "พักเพื่อ performance";
+      intensity = "Low";
+      nutritionKey = "low";
+    }
+
+    const avoid = [];
+    if (inputs.todaySportLoad >= 50) avoid.push("heavy lower body", "max effort gym");
+    if (metrics.RD >= 70) avoid.push("heavy compound", "high-volume session");
+    if (metrics.TL >= 75) avoid.push("extra volume");
+    if (category === "low") avoid.push("technical overhaul");
+    if (!avoid.length) avoid.push("doing too many priorities");
+
+    const plan = {
+      date: new Date().toDateString(),
+      category,
+      readinessScore: RS,
+      sessionType,
+      mainFocus,
+      intensity,
+      duration: `${inputs.availability} min`,
+      nutritionKey,
+      nutritionPlan: nutritionPlans[nutritionKey].label,
+      avoid: [...new Set(avoid)],
+      reason: inputs.whoop ? `RS ${RS} · TL ${metrics.TL} · RD ${metrics.RD}` : "waiting for WHOOP",
+      confidence: confidence(inputs),
+      metrics,
+      inputs
+    };
+    state.currentPlan = plan;
+    setStore(todayKey("aoTodayPlan_"), plan);
+    return plan;
+  }
+
+  function renderPlan() {
+    const plan = buildPlan();
+    const hasPlan = plan.category !== "none";
+    $("sleepDisplay").innerHTML = `${Number(plan.inputs.sleep).toFixed(1)}<span>ชม.</span>`;
+    $("fatigueLabel").textContent = `Fatigue · ${state.fatigue}`;
+    $("mentalLabel").textContent = `Mental · ${state.mental}`;
+    $("scoreRing").style.setProperty("--score", plan.readinessScore);
+    $("readinessNumber").textContent = hasPlan ? plan.readinessScore : "-";
+
+    const status = $("statusBadge");
+    const checkin = $("checkinStatus");
+    status.className = "status-pill";
+    checkin.className = "status-pill";
+    if (!hasPlan) {
+      status.textContent = "CHECK-IN";
+      checkin.textContent = "FIRST STEP";
+      $("planTitle").textContent = "กรอก Morning Check-in เพื่อสร้างแผนวันนี้";
+      $("planSubtitle").textContent = "ระบบจะใช้ recovery, sleep, soreness, load และเวลาว่างเพื่อปรับแผนให้เหมาะกับชีวิตจริง";
+      $("detailsToggle").style.display = "none";
+      $("todayPlanCard").innerHTML = `<div class="kicker">TODAY PLAN</div><div class="panel-title">รอข้อมูล Check-in</div><div class="panel-text">ใส่ WHOOP Recovery เพื่อปลดล็อกแผนวันนี้</div>`;
+    } else {
+      const mood = plan.category === "low" || plan.category === "accumulated" ? "bad" : plan.category === "moderate" ? "warn" : "ready";
+      status.classList.add(mood);
+      checkin.classList.add("ready");
+      status.textContent = plan.category === "peak" ? "PEAK" : plan.category === "high" ? "READY" : plan.category === "moderate" ? "CONTROL" : "RECOVER";
+      checkin.textContent = "READY";
+      $("planTitle").textContent = plan.category === "low" ? "วันนี้ควรฟื้นตัว ไม่ใช่ฝืนซ้อมหนัก" : plan.category === "moderate" ? "วันนี้ควรเลือก 1 priority เท่านั้น" : "วันนี้ซ้อมได้ดี ใช้คุณภาพนำปริมาณ";
+      $("planSubtitle").textContent = `Focus: ${plan.mainFocus}`;
+      $("detailsToggle").style.display = "block";
+      const warning = plan.metrics.RD >= 70 || plan.metrics.TL >= 75 || plan.inputs.soreness >= 4;
+      $("todayPlanCard").innerHTML = `
+        <div class="kicker">TODAY PLAN</div>
+        <div class="panel-title">${plan.sessionType}</div>
+        <div class="panel-text">Focus: ${plan.mainFocus}<br>Reason: ${plan.reason}</div>
+        <div class="pill-row">
+          <span class="pill ${mood === "bad" ? "bad" : mood === "warn" ? "warn" : "good"}">RS ${plan.readinessScore}</span>
+          <span class="pill">${plan.duration}</span>
+          <span class="pill">Intensity ${plan.intensity}</span>
+          <span class="pill ${plan.confidence.level === "High" ? "good" : plan.confidence.level === "Medium" ? "warn" : "bad"}">Confidence ${plan.confidence.level}</span>
+        </div>
+        ${warning ? `<div class="warning ${mood === "bad" ? "bad" : ""}"><div class="warning-title">วันนี้ต้องคุม volume ให้ฉลาด</div><div class="warning-text">ระบบเห็น TL ${plan.metrics.TL}, RD ${plan.metrics.RD}, soreness ${plan.inputs.soreness}. เลือก 1 priority และอย่าเพิ่มงานเกินแผน.</div></div>` : ""}
+      `;
+    }
+
+    $("detailsPanel").innerHTML = hasPlan ? `
+      <div class="panel">
+        <div class="kicker">PLAN DETAILS</div>
+        <div class="detail-grid">
+          <div class="detail-box"><div class="detail-label">Reason</div><div class="detail-value">${plan.reason}</div></div>
+          <div class="detail-box"><div class="detail-label">Avoid</div><div class="detail-value">${plan.avoid.join(" · ")}</div></div>
+          <div class="detail-box"><div class="detail-label">Nutrition</div><div class="detail-value">${plan.nutritionPlan}</div></div>
+          <div class="detail-box"><div class="detail-label">Load / Debt</div><div class="detail-value">TL ${plan.metrics.TL} · RD ${plan.metrics.RD}</div></div>
+          <div class="detail-box"><div class="detail-label">Confidence</div><div class="detail-value">${plan.confidence.level} (${plan.confidence.score}%)</div></div>
+          <div class="detail-box"><div class="detail-label">Inputs</div><div class="detail-value">Sleep ${plan.inputs.sleep}h · Fatigue ${plan.inputs.fatigue} · Mental ${plan.inputs.mental}</div></div>
+        </div>
+        <div class="actions"><button class="primary-btn" id="lockPlanBtn">Lock Plan</button><button class="ghost-btn" id="hideDetailsBtn">Hide</button></div>
+      </div>
+    ` : "";
+    $("nutritionCard").innerHTML = `<div class="kicker">${plan.nutritionPlan}</div><div class="panel-text">${nutritionPlans[plan.nutritionKey].body}</div>`;
+    renderLockedPlan();
+    updateProgress();
+  }
+
+  function saveMorning() {
+    const plan = buildPlan();
+    const payload = {
+      date: new Date().toDateString(),
+      sleep: String(plan.inputs.sleep),
+      whoop: String(plan.inputs.whoop),
+      fatigue: state.fatigue,
+      mental: state.mental,
+      hrv: plan.inputs.hrv,
+      rhr: plan.inputs.rhr,
+      soreness: plan.inputs.soreness,
+      workStress: plan.inputs.workStress,
+      availability: plan.inputs.availability,
+      todaySportLoad: plan.inputs.todaySportLoad,
+      yesterdaySportLoad: plan.inputs.yesterdaySportLoad,
+      interrupted: plan.inputs.interrupted
+    };
+    setStore(todayKey("aoMorning_"), payload);
+    const streak = getStore("aoStreak", []);
+    if (Array.isArray(streak) && !streak.includes(payload.date)) streak.push(payload.date);
+    setStore("aoStreak", Array.isArray(streak) ? streak : [payload.date]);
+    renderPlan();
+    showToast();
+  }
+
+  function lockPlan() {
+    const plan = buildPlan();
+    if (plan.category === "none") {
+      $("whoopScore").focus();
+      return;
+    }
+    setStore(todayKey("aoLockedTodayPlan_"), { ...plan, locked: true, lockedAt: new Date().toISOString() });
+    renderLockedPlan();
+    showToast("PLAN LOCKED");
+  }
+
+  function renderLockedPlan() {
+    const locked = getStore(todayKey("aoLockedTodayPlan_"), null);
+    const plan = locked || state.currentPlan || buildPlan();
+    if (!locked && plan.category === "none") {
+      $("lockedPlanCard").innerHTML = `<div class="kicker">LOCKED PLAN</div><div class="panel-text">ยังไม่ได้ Lock Today Plan - กลับไปหน้า Today แล้วกรอก Check-in ก่อน</div>`;
+      return;
+    }
+    $("lockedPlanCard").innerHTML = `
+      <div class="kicker">${locked ? "LOCKED TODAY PLAN" : "CURRENT PLAN"}</div>
+      <div class="panel-title">${plan.sessionType}</div>
+      <div class="panel-text">${plan.mainFocus}</div>
+      <div class="detail-grid">
+        <div class="detail-box"><div class="detail-label">Duration</div><div class="detail-value">${plan.duration}</div></div>
+        <div class="detail-box"><div class="detail-label">Intensity</div><div class="detail-value">${plan.intensity}</div></div>
+        <div class="detail-box"><div class="detail-label">Nutrition</div><div class="detail-value">${plan.nutritionPlan}</div></div>
+        <div class="detail-box"><div class="detail-label">Avoid</div><div class="detail-value">${plan.avoid.join(" · ")}</div></div>
+      </div>`;
+  }
+
+  function progressionAdvice(lift) {
+    if (!lift || !lift.name || !lift.weight || !lift.repsText) return null;
+    const reps = String(lift.repsText).split(",").map(x => parseInt(x.trim(), 10)).filter(Number.isFinite);
+    if (!reps.length) return null;
+    const weight = parseFloat(lift.weight);
+    const rir = parseInt(lift.rir, 10);
+    let nextWeight = weight;
+    let reason = "คงน้ำหนักเพื่อสะสมคุณภาพ";
+    if (lift.form === "bad") {
+      nextWeight = Math.max(0, +(weight * 0.9).toFixed(1));
+      reason = "form หลุด ลด 10% เพื่อ reset quality";
+    } else if (Math.min(...reps) >= 10 && rir >= 2 && lift.form === "good") {
+      nextWeight = +(weight * 1.025).toFixed(1);
+      reason = "ครบ top rep range และยังเหลือ RIR ≥2 เพิ่ม 2.5%";
+    } else if (Math.min(...reps) < 6 || rir <= 0) {
+      nextWeight = +(weight * 0.95).toFixed(1);
+      reason = "reps ตกหรือใกล้ failure เกินไป ลด 5% หรือคงน้ำหนัก";
+    }
+    return { name: lift.name, nextWeight, reason };
+  }
+
+  function saveSection(type) {
+    const today = new Date().toDateString();
+    let data = {};
+    if (type === "pre") {
+      data = { success: $("preSuccess").value.trim() };
+    }
+    if (type === "post") {
+      data = {
+        planResult: state.planResult,
+        planFeedback: state.planFeedback,
+        gymDay: state.gymDay,
+        miss: selectedValues("missPatternGrid").filter(x => x !== "ไม่มี miss"),
+        adjust: $("postAdjust").value.trim(),
+        note: $("postNote").value.trim(),
+        mainLift: {
+          name: $("mainLiftName").value.trim(),
+          weight: $("mainLiftWeight").value,
+          repsText: $("mainLiftReps").value.trim(),
+          rir: $("mainLiftRIR").value,
+          form: $("mainLiftForm").value
+        }
+      };
+      renderTomorrow(data);
+    }
+    setStore(`ao_${type}_${today}`, data);
+    updateProgress();
+    showToast();
+  }
+
+  function renderTomorrow(postData = getStore(todayKey("ao_post_"), {})) {
+    const plan = state.currentPlan || buildPlan();
+    const adv = progressionAdvice(postData.mainLift);
+    const focus = postData.adjust || (postData.miss && postData.miss[0]) || "Putting + short game feel";
+    const loadWarn = plan.metrics.TL >= 70 || plan.metrics.RD >= 70;
+    $("tomorrowCard").style.display = "block";
+    $("tomorrowCard").innerHTML = `
+      <div class="kicker">TOMORROW BASE PLAN</div>
+      <div class="panel-title">${loadWarn ? "Recovery / Skill only" : "Moderate technical"}</div>
+      <div class="panel-text">Focus: ${focus}<br>${loadWarn ? "Load หรือ debt สูง ให้ deload ก่อน" : "เช้าจะปรับอีกครั้งตาม WHOOP / sleep"}</div>
+      ${adv ? `<div class="warning"><div class="warning-title">Progressive overload</div><div class="warning-text">${adv.name}: next ${adv.nextWeight}kg - ${adv.reason}</div></div>` : ""}
+    `;
+  }
+
+  function selectedValues(gridId) {
+    return [...$(gridId).querySelectorAll(".choice-btn.selected")].map(btn => btn.dataset.value);
+  }
+
+  function updateProgress() {
+    const plan = state.currentPlan || buildPlan();
+    const metrics = compute7DayMetrics();
+    if (!$("progressRS")) return;
+    $("progressRS").textContent = plan.category === "none" ? "-" : plan.readinessScore;
+    $("progressTL").textContent = metrics.TL;
+    $("progressRD").textContent = `Recovery debt ${metrics.RD}`;
+    const latestPost = getLatestPost();
+    const adv = latestPost ? progressionAdvice(latestPost.mainLift) : null;
+    $("progressAdvice").innerHTML = adv
+      ? `<div class="kicker">PROGRESSIVE OVERLOAD</div><div class="panel-text">${adv.name}: next ${adv.nextWeight}kg<br>${adv.reason}</div>`
+      : `<div class="kicker">PROGRESSIVE OVERLOAD</div><div class="panel-text">ยังไม่มี main lift log - กรอกใน Review เพื่อให้ระบบแนะนำครั้งถัดไป</div>`;
+    renderHistory();
+  }
+
+  function renderCountdown() {
+    const data = getStore("aoTournament", {});
+    if (data.date) $("tournamentDate").value = data.date;
+    if (data.name) $("tournamentName").value = data.name;
+    const target = data.date ? new Date(`${data.date}T00:00:00`) : null;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const days = target ? Math.ceil((target - today) / 86400000) : null;
+    $("daysRemaining").textContent = Number.isFinite(days) ? Math.max(0, days) : "-";
+    $("countdownDate").textContent = data.date || "-";
+    $("countdownEvent").textContent = data.name || "-";
+    $("countdownAdvice").innerHTML = Number.isFinite(days)
+      ? `<div class="kicker">TONIGHT SUGGESTION BASE · เช้าจะปรับอีกครั้ง</div><div class="panel-text">${days <= 7 ? "ลด volume, เพิ่ม recovery และซ้อมแบบคุมคุณภาพ" : "ยังมีเวลาสร้าง base ได้ แต่ต้องไม่ชน recovery debt"}</div>`
+      : `<div class="kicker">TONIGHT SUGGESTION BASE · เช้าจะปรับอีกครั้ง</div><div class="panel-text">กรอกวันแข่งเพื่อให้ระบบนับถอยหลังและปรับ training load</div>`;
+  }
+
+  function saveTournament() {
+    const data = {
+      date: $("tournamentDate").value,
+      name: $("tournamentName").value.trim()
+    };
+    setStore("aoTournament", data);
+    renderCountdown();
+    showToast("COUNTDOWN SAVED");
+  }
+
+  function icsDate(dateValue) {
+    return String(dateValue || "").replaceAll("-", "");
+  }
+
+  function addTournamentToCalendar() {
+    const data = getStore("aoTournament", {});
+    if (!data.date) {
+      $("tournamentDate").focus();
+      return;
+    }
+    const title = data.name || "Tournament / Pro Test";
+    const next = new Date(`${data.date}T00:00:00`);
+    next.setDate(next.getDate() + 1);
+    const end = next.toISOString().slice(0, 10);
+    const body = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Athlete OS//Tournament Countdown//EN",
+      "BEGIN:VEVENT",
+      `UID:athlete-os-${data.date}@local`,
+      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}`,
+      `DTSTART;VALUE=DATE:${icsDate(data.date)}`,
+      `DTEND;VALUE=DATE:${icsDate(end)}`,
+      `SUMMARY:${title.replaceAll("\\", "\\\\").replaceAll(",", "\\,")}`,
+      "END:VEVENT",
+      "END:VCALENDAR"
+    ].join("\r\n");
+    const url = URL.createObjectURL(new Blob([body], { type: "text/calendar" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "athlete-os-tournament.ics";
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function getLatestPost() {
+    const rows = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("ao_post_")) rows.push({ key, data: getStore(key, {}) });
+    }
+    rows.sort((a, b) => new Date(b.key.replace("ao_post_", "")) - new Date(a.key.replace("ao_post_", "")));
+    return rows[0]?.data || null;
+  }
+
+  function renderHistory() {
+    const list = $("historyList");
+    const entries = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("aoMorning_")) {
+        const dateStr = key.replace("aoMorning_", "");
+        entries.push({ dateStr, morning: getStore(key, {}), post: getStore(`ao_post_${dateStr}`, {}) });
+      }
+    }
+    if (!entries.length) {
+      list.innerHTML = `<div class="panel-text" style="text-align:center;padding:34px 0">ยังไม่มีข้อมูล<br>กรอก Morning Check-in ก่อน</div>`;
+      return;
+    }
+    entries.sort((a, b) => new Date(b.dateStr) - new Date(a.dateStr));
+    list.innerHTML = entries.map(({ dateStr, morning, post }) => {
+      const whoop = parseInt(morning.whoop, 10) || 0;
+      const sleep = parseFloat(morning.sleep) || 0;
+      const tags = [];
+      if (whoop) tags.push(`<span class="tag ${whoop >= 67 ? "green" : whoop >= 34 ? "yellow" : "red"}">WHOOP ${whoop}%</span>`);
+      if (sleep) tags.push(`<span class="tag ${sleep >= 7 ? "green" : sleep >= 6 ? "yellow" : "red"}">${sleep}h</span>`);
+      if (post.planResult) tags.push(`<span class="tag blue">Plan ${post.planResult}</span>`);
+      if (post.planFeedback) tags.push(`<span class="tag ${post.planFeedback === "yes" ? "green" : post.planFeedback === "no" ? "red" : "yellow"}">Feedback ${post.planFeedback}</span>`);
+      (post.miss || []).slice(0, 2).forEach(m => tags.push(`<span class="tag blue">${m}</span>`));
+      return `<div class="history-entry"><div class="history-date">${dateStr}</div><div class="tag-row">${tags.join("") || `<span class="panel-text">ข้อมูลไม่ครบ</span>`}</div>${post.note ? `<div class="panel-text" style="margin-top:8px">${post.note}</div>` : ""}</div>`;
+    }).join("");
+  }
+
+  function switchPage(name) {
+    const page = $(`page-${name}`);
+    if (!page) return;
+    document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".nav-item").forEach(el => el.classList.toggle("active", el.dataset.page === name));
+    page.classList.add("active");
+    $("stickyActionBar").classList.toggle("hidden", name !== "morning");
+    if (name === "pre") renderLockedPlan();
+    if (name === "progress") renderCountdown();
+    if (name === "profile") updateProgress();
+  }
+
+  function buildDots() {
+    document.querySelectorAll("[data-dot-group]").forEach(group => {
+      const type = group.dataset.dotGroup;
+      group.innerHTML = [1, 2, 3, 4, 5].map(v => `<button class="dot-btn" type="button" data-type="${type}" data-value="${v}">${v}</button>`).join("");
+    });
+  }
+
+  function refreshDots() {
+    document.querySelectorAll(".dot-btn").forEach(btn => {
+      const type = btn.dataset.type;
+      btn.classList.toggle("selected", Number(btn.dataset.value) === state[type]);
+    });
+  }
+
+  function restoreToday() {
+    const m = getStore(todayKey("aoMorning_"), {});
+    if (m.whoop) $("whoopScore").value = m.whoop;
+    if (m.sleep) $("sleepSlider").value = m.sleep;
+    if (m.fatigue) state.fatigue = clamp(m.fatigue, 1, 5, 3);
+    if (m.mental) state.mental = clamp(m.mental, 1, 5, 3);
+    if (m.hrv) $("hrvInput").value = m.hrv;
+    if (m.rhr) $("rhrInput").value = m.rhr;
+    if (m.soreness) $("sorenessInput").value = m.soreness;
+    if (m.workStress) $("workStressInput").value = m.workStress;
+    if (m.availability) $("availabilityInput").value = String(m.availability);
+    if (m.todaySportLoad) $("todaySportLoad").value = String(m.todaySportLoad);
+    if (m.yesterdaySportLoad) $("yesterdaySportLoad").value = String(m.yesterdaySportLoad);
+    if (m.interrupted) $("interruptInput").value = "1";
+    const pre = getStore(todayKey("ao_pre_"), {});
+    if (pre.success) $("preSuccess").value = pre.success;
+    const post = getStore(todayKey("ao_post_"), {});
+    if (post.planResult) state.planResult = post.planResult;
+    if (post.planFeedback) state.planFeedback = post.planFeedback;
+    if (post.gymDay) state.gymDay = post.gymDay;
+  }
+
+  function initManifest() {
+    const manifest = {
+      name: "Athlete OS",
+      short_name: "AthleteOS",
+      start_url: ".",
+      display: "standalone",
+      background_color: "#090A12",
+      theme_color: "#090A12",
+      icons: [{
+        src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%23090A12'/%3E%3Ctext x='96' y='128' font-size='110' text-anchor='middle' fill='%2300F5D4'%3EAO%3C/text%3E%3C/svg%3E",
+        sizes: "192x192",
+        type: "image/svg+xml"
+      }]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: "application/json" });
+    $("manifestLink").href = URL.createObjectURL(blob);
+  }
+
+  function bindEvents() {
+    ["whoopScore","sleepSlider","hrvInput","rhrInput","sorenessInput","workStressInput","availabilityInput","todaySportLoad","yesterdaySportLoad","interruptInput"].forEach(id => {
+      $(id).addEventListener("input", renderPlan);
+      $(id).addEventListener("change", renderPlan);
+    });
+    document.addEventListener("click", (event) => {
+      const dot = event.target.closest(".dot-btn");
+      if (dot) {
+        state[dot.dataset.type] = Number(dot.dataset.value);
+        refreshDots();
+        renderPlan();
+      }
+      const nav = event.target.closest(".nav-item");
+      if (nav) switchPage(nav.dataset.page);
+      const choice = event.target.closest(".choice-btn");
+      if (choice) {
+        const grid = choice.parentElement;
+        if (grid.id === "missPatternGrid") {
+          if (choice.dataset.value === "ไม่มี miss") grid.querySelectorAll(".choice-btn").forEach(btn => btn.classList.remove("selected"));
+          else grid.querySelector('[data-value="ไม่มี miss"]')?.classList.remove("selected");
+          choice.classList.toggle("selected");
+        } else {
+          grid.querySelectorAll(".choice-btn").forEach(btn => btn.classList.remove("selected"));
+          choice.classList.add("selected");
+          if (grid.id === "gymGrid") state.gymDay = choice.dataset.value;
+          if (grid.id === "planResultGrid") state.planResult = choice.dataset.value;
+          if (grid.id === "feedbackGrid") state.planFeedback = choice.dataset.value;
+        }
+      }
+      if (event.target.id === "lockPlanBtn") lockPlan();
+      if (event.target.id === "hideDetailsBtn") $("detailsPanel").classList.remove("open");
+      const save = event.target.closest("[data-save-section]");
+      if (save) saveSection(save.dataset.saveSection);
+    });
+    $("saveMorningBtn").addEventListener("click", saveMorning);
+    $("stickyMainBtn").addEventListener("click", () => {
+      if ((state.currentPlan || buildPlan()).category === "none") {
+        $("whoopScore").focus();
+      } else {
+        switchPage("pre");
+      }
+    });
+    $("advancedToggleBtn").addEventListener("click", () => {
+      $("advancedPanel").hidden = !$("advancedPanel").hidden;
+    });
+    $("detailsToggle").addEventListener("click", () => {
+      $("detailsPanel").classList.toggle("open");
+    });
+    $("saveTournamentBtn").addEventListener("click", saveTournament);
+    $("addTournamentCalendarBtn").addEventListener("click", addTournamentToCalendar);
+    $("connectGoogleBtn").addEventListener("click", () => {
+      if (window.location.protocol === "file:") {
+        showToast("ต้องรันผ่าน Netlify ก่อน");
+        return;
+      }
+      window.location.href = "/.netlify/functions/google-auth-start";
+    });
+    $("connectAppleBtn").addEventListener("click", () => {
+      $("appleCalendarFields").hidden = !$("appleCalendarFields").hidden;
+    });
+    $("saveAppleCalendarBtn").addEventListener("click", async () => {
+      if (window.location.protocol === "file:") {
+        showToast("ต้องรันผ่าน Netlify ก่อน");
+        return;
+      }
+      const username = $("appleCalendarUsername").value.trim();
+      const appPassword = $("appleCalendarPassword").value.trim();
+      if (!username || !appPassword) {
+        showToast("กรอก Apple credentials ก่อน");
+        return;
+      }
+      try {
+        const response = await fetch("/.netlify/functions/apple-caldav-connect", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ username, appPassword })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Apple Calendar connect failed");
+        showToast("APPLE CONNECTED");
+        await syncCalendar("apple");
+      } catch (error) {
+        showToast(error.message || "CONNECT FAILED");
+      }
+    });
+    $("syncCalendarBtn").addEventListener("click", async () => {
+      try {
+        await syncCalendar(getStore("aoCalendarSource", "google"));
+      } catch (error) {
+        showToast(error.message || "SYNC FAILED");
+      }
+    });
+    $("clearCalendarBtn").addEventListener("click", () => {
+      localStorage.removeItem("aoCalendarAvailability");
+      renderCalendarAvailability();
+      renderPlan();
+      showToast("CALENDAR CLEARED");
+    });
+  }
+
+  initManifest();
+  updateDate();
+  setInterval(updateDate, 30000);
+  buildDots();
+  restoreToday();
+  refreshDots();
+  bindEvents();
+  renderCountdown();
+  renderCalendarAvailability();
+  renderPlan();
+  updateProgress();
+  if (new URLSearchParams(window.location.search).get("calendar") === "google") {
+    syncCalendar("google").catch(error => showToast(error.message || "SYNC FAILED"));
+  }
+})();
+</script>
+</body>
+</html>
