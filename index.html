@@ -127,6 +127,17 @@
   .score-label { margin-top: -10px; color: var(--muted); font: 8px "IBM Plex Mono", monospace; letter-spacing: 1px; text-align: center; }
   .plan-title { margin-bottom: 7px; font-size: 16px; line-height: 1.35; }
   .plan-subtitle { color: var(--muted); font-size: 12px; line-height: 1.55; }
+  .positioning-line {
+    position: relative;
+    margin-top: 13px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--mint);
+    border-radius: 14px;
+    background: rgba(0,245,212,0.07);
+    color: #DDFEF8;
+    font-size: 12px;
+    line-height: 1.55;
+  }
 
   .quick-card, .panel, .review-block, .history-entry, .summary-card {
     border: 1px solid rgba(255,255,255,0.08);
@@ -198,6 +209,7 @@
   }
   .text-input { min-height: 72px; resize: vertical; }
   .hint { margin-top: 6px; color: #596073; font: 10px "IBM Plex Mono", monospace; line-height: 1.4; }
+  .boost-note { margin-top: 9px; padding: 9px 10px; border: 1px solid rgba(0,245,212,0.15); border-radius: 12px; background: rgba(0,245,212,0.06); color: #C9FFF7; font-size: 11px; line-height: 1.45; }
   .panel { padding: 14px; margin-top: 12px; }
   .panel-title { font-weight: 900; font-size: 14px; margin-bottom: 6px; }
   .panel-text { color: var(--muted); font-size: 12px; line-height: 1.55; }
@@ -224,6 +236,28 @@
   .warning.bad { border-color: rgba(255,77,109,0.24); border-left-color: var(--red); background: rgba(255,77,109,0.10); }
   .warning-title { font-size: 13px; font-weight: 900; margin-bottom: 3px; }
   .warning-text { color: #D8D2FF; font-size: 12px; line-height: 1.55; }
+  .coach-strip {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: rgba(0,245,212,0.06);
+    border-left: 2px solid var(--mint);
+    border-radius: 0 8px 8px 0;
+  }
+  .coach-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--mint);
+    font: 11px "IBM Plex Mono", monospace;
+    letter-spacing: 1px;
+  }
+  .coach-text {
+    color: var(--muted);
+    font: 12px/1.55 "IBM Plex Mono", monospace;
+    letter-spacing: 0.3px;
+  }
   .detail-toggle {
     display: none;
     width: 100%;
@@ -241,6 +275,15 @@
   .detail-box { border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 10px; background: rgba(255,255,255,0.045); }
   .detail-label { color: var(--muted); font: 8px "IBM Plex Mono", monospace; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
   .detail-value { color: var(--white); font-size: 12px; line-height: 1.45; }
+  .breakdown-list { display: grid; gap: 7px; margin-top: 10px; }
+  .breakdown-wrap { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .breakdown-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; background: rgba(0,0,0,0.18); }
+  .breakdown-main { color: var(--white); font-size: 12px; line-height: 1.35; }
+  .breakdown-note { color: var(--muted); font-size: 10px; line-height: 1.3; }
+  .breakdown-points { font: 12px "IBM Plex Mono", monospace; }
+  .breakdown-points.good { color: var(--mint); }
+  .breakdown-points.warn { color: var(--yellow); }
+  .breakdown-points.bad { color: var(--red); }
 
   .review-block { padding: 14px; margin-bottom: 10px; }
   .review-q { margin-bottom: 8px; color: var(--muted); font: 11px "IBM Plex Mono", monospace; letter-spacing: .5px; }
@@ -255,6 +298,7 @@
     font-size: 11px;
   }
   .choice-btn.selected { background: var(--blue); border-color: var(--blue); color: var(--white); }
+  .choice-btn.tight { min-height: 34px; }
 
   .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .summary-card { padding: 14px; }
@@ -352,7 +396,7 @@
         <div class="hero" id="hero">
           <div class="hero-top">
             <div>
-              <div class="kicker">BASE PLAN FROM LAST NIGHT</div>
+              <div class="kicker">10-SECOND DAILY DECISION</div>
               <div class="hero-title">TODAY'S DECISION</div>
             </div>
             <div class="status-pill" id="statusBadge">CHECK-IN</div>
@@ -369,25 +413,23 @@
             </div>
             <div>
               <h1 class="plan-title" id="planTitle">Complete your Morning Check-in to build today's plan</h1>
-              <p class="plan-subtitle" id="planSubtitle">Athlete OS uses recovery, sleep, soreness, training load, and real calendar availability to adjust today's plan.</p>
+              <p class="plan-subtitle" id="planSubtitle">Athlete OS turns 3 daily inputs into one clear decision for a multi-sport athlete.</p>
             </div>
           </div>
+          <div class="positioning-line">For serious multi-sport athletes: know what to do today in 10 seconds, without opening five apps and deciding alone.</div>
 
           <div class="quick-card">
             <div class="qc-top">
               <div>
-                <div class="qc-title">SLEEP & READINESS</div>
-                <div class="qc-sub">WHOOP %, sleep, fatigue, and mental readiness</div>
+                <div class="qc-title">MORNING CHECK-IN</div>
+                <div class="qc-sub">3 taps: fatigue, sleep, available time</div>
               </div>
-              <div class="status-pill" id="checkinStatus">FIRST STEP</div>
+              <div class="status-pill ready" id="checkinStatus">10 SEC</div>
             </div>
             <div class="qc-grid">
               <div class="field">
-                <div class="field-label">WHOOP Recovery</div>
-                <div class="whoop-row">
-                  <input class="whoop-input" id="whoopScore" type="number" min="0" max="100" inputmode="numeric" placeholder="?">
-                  <span class="suffix">%</span>
-                </div>
+                <div class="field-label" id="fatigueLabel">Fatigue · 3</div>
+                <div class="dot-row" data-dot-group="fatigue"></div>
               </div>
               <div class="field">
                 <div class="sleep-head">
@@ -399,46 +441,59 @@
             </div>
             <div class="chip-grid">
               <div class="field">
-                <div class="field-label" id="fatigueLabel">Fatigue · 3</div>
-                <div class="dot-row" data-dot-group="fatigue"></div>
+                <div class="field-label">Available time</div>
+                <select class="select" id="availabilityInput">
+                  <option value="30">30 min</option>
+                  <option value="45">45 min</option>
+                  <option value="60" selected>60 min</option>
+                  <option value="90">90 min</option>
+                  <option value="120">120+ min</option>
+                </select>
               </div>
               <div class="field">
-                <div class="field-label" id="mentalLabel">Mental · 3</div>
-                <div class="dot-row" data-dot-group="mental"></div>
+                <div class="field-label">Sport focus</div>
+                <select class="select" id="todaySportFocus">
+                  <option value="run">Run</option>
+                  <option value="strength">Strength</option>
+                  <option value="golf">Golf</option>
+                  <option value="hyrox">Hyrox</option>
+                </select>
               </div>
             </div>
             <div class="actions">
               <button class="primary-btn" id="saveMorningBtn">Save & Recalculate</button>
-              <button class="ghost-btn" id="advancedToggleBtn">Advanced</button>
+              <button class="ghost-btn" id="advancedToggleBtn">Optional Boost</button>
             </div>
-            <div class="hint">Advanced = HRV, RHR, soreness, work stress, sport load, and available time.</div>
+            <div class="hint">Optional Boost adds confidence only. Your 3-input decision is already valid.</div>
           </div>
 
           <div class="panel" id="advancedPanel" hidden>
-            <div class="section-label">Advanced Inputs</div>
+            <div class="section-label">Optional Boost · Confidence Only</div>
+            <div class="boost-note" id="confidenceBoostNote">Add sensor/load fields only when they are already available. They improve confidence, not permission to train.</div>
             <div class="mini-grid">
+              <input class="metric-input" id="whoopScore" type="number" min="0" max="100" inputmode="numeric" placeholder="WHOOP %">
               <input class="metric-input" id="hrvInput" type="number" min="0" max="220" placeholder="HRV">
               <input class="metric-input" id="rhrInput" type="number" min="0" max="120" placeholder="RHR">
               <input class="metric-input" id="sorenessInput" type="number" min="1" max="5" placeholder="Soreness 1-5">
               <input class="metric-input" id="workStressInput" type="number" min="1" max="5" placeholder="Work 1-5">
-              <select class="select" id="availabilityInput">
-                <option value="30">30 min</option>
-                <option value="45">45 min</option>
-                <option value="60" selected>60 min</option>
-                <option value="90">90 min</option>
-                <option value="120">120+ min</option>
+              <select class="select" id="mentalInput">
+                <option value="3" selected>Mental 3/5</option>
+                <option value="1">Mental 1/5</option>
+                <option value="2">Mental 2/5</option>
+                <option value="4">Mental 4/5</option>
+                <option value="5">Mental 5/5</option>
               </select>
               <select class="select" id="todaySportLoad">
                 <option value="0">No sport load today</option>
                 <option value="25">Sport light</option>
                 <option value="50">Sport hard</option>
-                <option value="75">Golf hard / 18 holes</option>
+                <option value="75">Sport very hard</option>
               </select>
               <select class="select" id="yesterdaySportLoad">
                 <option value="0">No sport load yesterday</option>
                 <option value="25">Y sport light</option>
                 <option value="50">Y sport hard</option>
-                <option value="75">Y golf hard / 18 holes</option>
+                <option value="75">Y sport very hard</option>
               </select>
               <select class="select" id="interruptInput">
                 <option value="0">No interruption today</option>
@@ -449,8 +504,8 @@
 
           <div class="panel" id="todayPlanCard">
             <div class="kicker">TODAY PLAN</div>
-            <div class="panel-title">Waiting for check-in</div>
-            <div class="panel-text">Enter WHOOP Recovery to unlock today's plan</div>
+            <div class="panel-title">Ready for your 10-second check-in</div>
+            <div class="panel-text">Set fatigue, sleep, and available time to recalculate.</div>
           </div>
 
           <button class="detail-toggle" id="detailsToggle">View plan details</button>
@@ -467,10 +522,6 @@
         <div class="panel" id="lockedPlanCard"></div>
       </div>
       <div class="section">
-        <div class="section-label">Nutrition Plan</div>
-        <div class="panel" id="nutritionCard"></div>
-      </div>
-      <div class="section">
         <div class="section-label">Set Your Win</div>
         <div class="review-block">
           <div class="review-q">Today is a win if... (1 measurable outcome)</div>
@@ -484,34 +535,10 @@
   <section class="page" id="page-post">
     <main class="main">
       <div class="section">
-        <div class="section-label">Post-Session Review</div>
+        <div class="section-label">Evening Micro-review</div>
+        <div class="review-block" id="todayWinCard" hidden></div>
         <div class="review-block">
-          <div class="review-q">Did you train in the gym today?</div>
-          <div class="btn-grid" id="gymGrid">
-            <button class="choice-btn" data-value="legs">Legs</button>
-            <button class="choice-btn" data-value="push">Push</button>
-            <button class="choice-btn" data-value="pull">Pull</button>
-            <button class="choice-btn" data-value="full">Full Body</button>
-            <button class="choice-btn" data-value="cardio">Cardio</button>
-            <button class="choice-btn" data-value="none">No gym</button>
-          </div>
-        </div>
-        <div class="review-block">
-          <div class="review-q">Progressive Overload Log</div>
-          <div class="mini-grid">
-            <input class="metric-input" id="mainLiftName" type="text" placeholder="Example: Barbell RDL">
-            <input class="metric-input" id="mainLiftWeight" type="number" min="0" placeholder="kg">
-            <input class="metric-input" id="mainLiftReps" type="text" placeholder="reps e.g. 8,8,8">
-            <input class="metric-input" id="mainLiftRIR" type="number" min="0" max="5" placeholder="RIR">
-          </div>
-          <select class="select" id="mainLiftForm" style="margin-top:8px">
-            <option value="good">Good form / controlled</option>
-            <option value="ok">Form was acceptable</option>
-            <option value="bad">Form broke down / injury risk</option>
-          </select>
-        </div>
-        <div class="review-block">
-          <div class="review-q">Did you follow the plan?</div>
+          <div class="review-q">Did you follow today's decision?</div>
           <div class="btn-grid" id="planResultGrid">
             <button class="choice-btn" data-value="yes">Yes</button>
             <button class="choice-btn" data-value="partial">Partly</button>
@@ -519,16 +546,20 @@
           </div>
         </div>
         <div class="review-block">
-          <div class="review-q">Today's miss pattern</div>
-          <div class="btn-grid" id="missPatternGrid">
-            <button class="choice-btn" data-value="Driver left">Driver left</button>
-            <button class="choice-btn" data-value="Driver right">Driver right</button>
-            <button class="choice-btn" data-value="Approach short">Approach short</button>
-            <button class="choice-btn" data-value="Approach long">Approach long</button>
-            <button class="choice-btn" data-value="Chip miss">Chip miss</button>
-            <button class="choice-btn" data-value="Putt speed">Putt speed</button>
-            <button class="choice-btn" data-value="Mental lapse">Mental lapse</button>
-            <button class="choice-btn" data-value="No miss">No miss</button>
+          <div class="review-q">How did you feel after training?</div>
+          <div class="btn-grid" id="feelGrid">
+            <button class="choice-btn" data-value="better">Better</button>
+            <button class="choice-btn" data-value="same">Same</button>
+            <button class="choice-btn" data-value="worse">Worse</button>
+          </div>
+        </div>
+        <div class="review-block">
+          <div class="review-q">Actual session load</div>
+          <div class="btn-grid" id="actualLoadGrid">
+            <button class="choice-btn" data-value="0">Rest</button>
+            <button class="choice-btn" data-value="25">Light</button>
+            <button class="choice-btn" data-value="50">Hard</button>
+            <button class="choice-btn" data-value="75">Very hard</button>
           </div>
         </div>
         <div class="review-block">
@@ -541,13 +572,9 @@
         </div>
         <div class="review-block">
           <div class="review-q">One adjustment for tomorrow</div>
-          <input class="single-input" id="postAdjust" type="text" placeholder="Example: add wedge distance drill">
+          <input class="single-input" id="postAdjust" type="text" placeholder="Example: reduce volume / run intervals / strength only">
         </div>
-        <div class="review-block">
-          <div class="review-q">Additional notes</div>
-          <textarea class="text-input" id="postNote" placeholder="Feeling, highlights, things to remember..."></textarea>
-        </div>
-        <button class="save-btn" data-save-section="post">SAVE REVIEW</button>
+        <button class="save-btn" data-save-section="post">SAVE 30-SEC REVIEW</button>
         <div class="panel" id="tomorrowCard" style="display:none"></div>
       </div>
     </main>
@@ -556,41 +583,23 @@
   <section class="page" id="page-progress">
     <main class="main">
       <div class="section">
-        <div class="section-label">Tournament Countdown</div>
-        <div class="panel">
-          <div class="kicker">Calendar Sync</div>
-          <div class="panel-title" id="calendarSyncTitle">Connect your calendar to find available training time</div>
-          <div class="panel-text" id="calendarSyncText">Athlete OS reads busy/free blocks, adjusts available time, and suggests training windows that fit today's recovery.</div>
-          <div class="sync-row">
-            <button class="primary-btn" id="connectGoogleBtn" type="button">Connect Google</button>
-            <button class="ghost-btn" id="connectAppleBtn" type="button">Connect Apple</button>
-          </div>
-          <div class="calendar-fields" id="appleCalendarFields" hidden>
-            <input class="single-input" id="appleCalendarUsername" type="email" autocomplete="username" placeholder="Apple ID email">
-            <input class="single-input" id="appleCalendarPassword" type="password" autocomplete="current-password" placeholder="Apple app-specific password">
-            <button class="save-btn" id="saveAppleCalendarBtn" type="button">SAVE APPLE CALENDAR</button>
-          </div>
-          <div class="sync-row">
-            <button class="ghost-btn" id="syncCalendarBtn" type="button">Sync Availability</button>
-            <button class="ghost-btn" id="clearCalendarBtn" type="button">Clear</button>
-          </div>
-          <div class="panel" id="calendarAvailabilityCard"></div>
-        </div>
-        <div class="review-block">
-          <div class="review-q">Tournament / pro test date</div>
-          <input class="single-input" id="tournamentDate" type="date">
-        </div>
-        <div class="review-block">
-          <div class="review-q">Event name</div>
-          <input class="single-input" id="tournamentName" type="text" placeholder="Example: Qualifying School / Pro Test">
-        </div>
-        <button class="save-btn" id="saveTournamentBtn">SAVE COUNTDOWN</button>
-        <button class="ghost-btn" id="addTournamentCalendarBtn" style="width:100%;margin-top:8px">+ Add to Calendar</button>
+        <div class="section-label">14-Day Validation Loop</div>
         <div class="summary-grid" style="margin-top:12px">
-          <div class="summary-card"><div class="summary-label">Days Remaining</div><div class="summary-value" id="daysRemaining">-</div><div class="summary-note" id="countdownDate">-</div></div>
-          <div class="summary-card"><div class="summary-label">Event</div><div class="summary-value" id="countdownEvent" style="font-size:22px">-</div><div class="summary-note">Target date</div></div>
+          <div class="summary-card"><div class="summary-label">Open Days</div><div class="summary-value" id="openDays">-</div><div class="summary-note">Morning check-ins</div></div>
+          <div class="summary-card"><div class="summary-label">Follow Rate</div><div class="summary-value" id="followRate">-</div><div class="summary-note">Did the decision get used?</div></div>
         </div>
-        <div class="panel" id="countdownAdvice"></div>
+        <div class="panel" id="loopAdvice"></div>
+        <div class="panel">
+          <div class="kicker">SPORT MODULES</div>
+          <div class="panel-title">Run, Strength, Golf, and Hyrox are equal modules</div>
+          <div class="panel-text">Pick today's focus in the morning check-in. No sport owns the app identity; every module exists only to make the daily decision faster.</div>
+          <div class="pill-row">
+            <span class="pill good">Run</span>
+            <span class="pill good">Strength</span>
+            <span class="pill good">Golf</span>
+            <span class="pill good">Hyrox</span>
+          </div>
+        </div>
       </div>
     </main>
   </section>
@@ -613,7 +622,7 @@
     <button class="nav-item active" data-page="morning"><span class="nav-icon">☀️</span><span class="nav-label">Morning</span></button>
     <button class="nav-item" data-page="pre"><span class="nav-icon">⚡</span><span class="nav-label">Pre</span></button>
     <button class="nav-item" data-page="post"><span class="nav-icon">✓</span><span class="nav-label">Post</span></button>
-    <button class="nav-item" data-page="progress"><span class="nav-icon">⌁</span><span class="nav-label">Countdown</span></button>
+    <button class="nav-item" data-page="progress"><span class="nav-icon">⌁</span><span class="nav-label">Loop</span></button>
     <button class="nav-item" data-page="profile"><span class="nav-icon">≡</span><span class="nav-label">Log</span></button>
   </nav>
 
@@ -633,6 +642,9 @@
     gymDay: null,
     planResult: null,
     planFeedback: null,
+    winResult: null,
+    postFeel: null,
+    actualLoad: null,
     currentPlan: null
   };
   const DEFAULT_PROFILE = { sessionTime: "60", weight: 67 };
@@ -792,12 +804,13 @@
       whoop: clamp($("whoopScore").value, 0, 100, 0),
       sleep: clamp($("sleepSlider").value, 3, 10, 6),
       fatigue: clamp(state.fatigue, 1, 5, 3),
-      mental: clamp(state.mental, 1, 5, 3),
+      mental: clamp($("mentalInput").value, 1, 5, 3),
       hrv: clamp($("hrvInput").value, 0, 220, 0),
       rhr: clamp($("rhrInput").value, 0, 120, 0),
       soreness: clamp($("sorenessInput").value, 1, 5, 3),
       workStress: clamp($("workStressInput").value, 1, 5, 3),
       availability: calendarMinutes || clamp($("availabilityInput").value, 15, 180, 60),
+      sportFocus: $("todaySportFocus").value,
       todaySportLoad: clamp($("todaySportLoad").value, 0, 100, 0),
       yesterdaySportLoad: clamp($("yesterdaySportLoad").value, 0, 100, 0),
       interrupted: $("interruptInput").value === "1"
@@ -817,7 +830,10 @@
       const weight = i <= 3 ? 4 - i : 1;
       if (post.planResult === "yes") tl += 10 * weight;
       if (post.planResult === "partial") tl += 6 * weight;
+      tl += ((parseInt(post.actualLoad, 10) || 0) / 10) * weight;
       tl += (gymWeight[post.gymDay] || 0) * weight;
+      if (post.feel === "worse") rd += 10 * weight;
+      if (post.feel === "better") rd = Math.max(0, rd - 3 * weight);
       const wh = parseInt(morning.whoop, 10);
       const sl = parseFloat(morning.sleep);
       const ft = parseInt(morning.fatigue, 10);
@@ -852,11 +868,12 @@
   }
 
   function computeReadiness(inputs, metrics) {
-    if (!inputs.whoop) return 0;
-    let score = 0;
-    score += (inputs.whoop / 100) * 30;
-    score += (Math.min(inputs.sleep, 9) / 9) * 16;
-    score += ((5 - inputs.fatigue) / 4) * 14;
+    const sleepBonus = Math.max(-15, Math.min(10, (inputs.sleep - 7) * 5));
+    const whoopBonus = inputs.whoop > 0 ? ((inputs.whoop - 50) / 50) * 16 : 3;
+    let score = 52;
+    score += whoopBonus;
+    score += sleepBonus;
+    score += (3 - inputs.fatigue) * 7;
     score += (inputs.mental / 5) * 10;
     score += inputs.hrv > 0 ? Math.max(0, Math.min(10, (inputs.hrv - 35) / 5)) : 6;
     score += inputs.rhr > 0 ? Math.max(0, Math.min(8, (70 - inputs.rhr) / 3)) : 5;
@@ -865,6 +882,42 @@
     score -= Math.max(0, inputs.soreness - 2) * 5;
     score -= Math.max(0, inputs.workStress - 3) * 3;
     return Math.max(0, Math.min(100, Math.round(score)));
+  }
+
+  function signed(points) {
+    const rounded = Math.round(points);
+    return `${rounded > 0 ? "+" : ""}${rounded} pts`;
+  }
+
+  function buildReadinessBreakdown(inputs, metrics) {
+    const rows = [];
+    const sleepPts = Math.max(-15, Math.min(10, (inputs.sleep - 7) * 5));
+    const fatiguePts = (3 - inputs.fatigue) * 7;
+    const whoopPts = inputs.whoop > 0 ? ((inputs.whoop - 50) / 50) * 16 : 3;
+    const loadPts = -((metrics.TL / 100) * 12);
+    const debtPts = -((metrics.RD / 100) * 14);
+    const evening = getStore(dayKey(1, "ao_post_"), {});
+    rows.push({ label: `Sleep ${inputs.sleep}h`, note: "Baseline 7h", points: sleepPts });
+    rows.push({ label: `Fatigue ${inputs.fatigue}/5`, note: "Morning self-report", points: fatiguePts });
+    rows.push(inputs.whoop > 0
+      ? { label: `WHOOP Recovery ${inputs.whoop}%`, note: "Optional sensor signal", points: whoopPts }
+      : { label: "WHOOP not connected", note: "Neutral fallback, not a penalty", points: whoopPts });
+    rows.push({ label: `7D training load ${metrics.TL}`, note: "Built from recent reviews", points: loadPts });
+    rows.push({ label: `Recovery debt ${metrics.RD}`, note: evening.feel ? `Includes yesterday: felt ${evening.feel}` : "Sleep, fatigue, and recent load", points: debtPts });
+    return rows;
+  }
+
+  function breakdownHtml(plan) {
+    return `
+      <div class="breakdown-list">
+        ${buildReadinessBreakdown(plan.inputs, plan.metrics).map(row => {
+          const tone = row.points > 2 ? "good" : row.points < -2 ? "bad" : "warn";
+          return `<div class="breakdown-row">
+            <div><div class="breakdown-main">${row.label}</div><div class="breakdown-note">${row.note}</div></div>
+            <div class="breakdown-points ${tone}">${signed(row.points)}</div>
+          </div>`;
+        }).join("")}
+      </div>`;
   }
 
   function categoryFor(RS, TL, RD) {
@@ -893,68 +946,198 @@
     };
   }
 
+  function optionalBoostText(inputs) {
+    const current = confidence(inputs).score;
+    const optionalMissing = [
+      ["WHOOP", inputs.whoop > 0],
+      ["HRV", inputs.hrv > 0],
+      ["RHR", inputs.rhr > 0],
+      ["yesterday load", inputs.yesterdaySportLoad > 0 || getStore(dayKey(1, "ao_post_"), {}).planResult]
+    ].filter(([, present]) => !present).map(([label]) => label);
+    const potential = optionalMissing.length ? Math.min(100, current + optionalMissing.length * 13) : current;
+    return optionalMissing.length
+      ? `Current confidence ${current}%. Optional fields can lift it toward ${potential}%: ${optionalMissing.join(", ")}.`
+      : `Confidence ${current}%. Optional signals are already covered today.`;
+  }
+
+  const sportDecisions = {
+    golf: {
+      peak: {
+        sessionType: "Full performance session — trust your swing today",
+        mainFocus: "Play or simulate full round — commit to every shot, no swing thoughts",
+        avoidExtra: ["mechanics overhaul", "overthinking", "purposeless range before round"],
+        coachNote: "Peak days are for scoring, not fixing. Play aggressive to targets."
+      },
+      high: {
+        sessionType: "Quality technical session — one key only",
+        mainFocus: "Pick 1 swing key + short game 20 min — execute with full commitment",
+        avoidExtra: ["multiple swing fixes", "grinding past 90 min"],
+        coachNote: "High days: build one pattern. Don't split focus."
+      },
+      moderate: {
+        sessionType: "Short game priority — precision over power",
+        mainFocus: "Putting 20 min + chipping 20 min — feel shots, don't force",
+        avoidExtra: ["full swing overhaul", "long range session", "playing if mentally flat"],
+        coachNote: "Moderate RS: precision drops before power. Short game first."
+      },
+      accumulated: {
+        sessionType: "Putting only — protect the brain",
+        mainFocus: "15-20 min putting — feel and rhythm, no technical work",
+        avoidExtra: ["full swing", "competitive round"],
+        coachNote: "Golf demands mental freshness. Accumulated fatigue kills course decisions."
+      },
+      low: {
+        sessionType: "Rest day — protect your next good session",
+        mainFocus: "No golf today — walk, stretch, or visualize only",
+        avoidExtra: ["any swing practice", "swing video analysis"],
+        coachNote: "Bad golf when tired builds bad habits. Protect the next session."
+      }
+    },
+    run: {
+      peak: {
+        sessionType: "Quality run — push the pace with purpose",
+        mainFocus: "Tempo or interval session — 80% effort, controlled aggression",
+        avoidExtra: ["going all-out without structure", "extending past planned distance"],
+        coachNote: "Peak days: run the planned session. Don't improvise."
+      },
+      high: {
+        sessionType: "Steady aerobic run — build base with good form",
+        mainFocus: "Zone 2 run 30-45 min — conversation pace, nasal breathing",
+        avoidExtra: ["tempo effort", "skipping cooldown"],
+        coachNote: "Zone 2 builds aerobic base without burning recovery."
+      },
+      moderate: {
+        sessionType: "Easy run or active recovery jog",
+        mainFocus: "20-30 min easy jog — effort should feel almost too easy",
+        avoidExtra: ["picking up pace mid-run", "running in peak heat"],
+        coachNote: "Moderate days done easy separate athletes who last vs. break."
+      },
+      accumulated: {
+        sessionType: "Walk or full rest — no running today",
+        mainFocus: "30 min walk or yoga — keep blood moving without load",
+        avoidExtra: ["any running", "skipping sleep for morning run"],
+        coachNote: "Accumulated load is the most common cause of injury."
+      },
+      low: {
+        sessionType: "Complete rest — body is sending a signal",
+        mainFocus: "Sleep, eat, hydrate — no movement goal today",
+        avoidExtra: ["guilt running", "compensating tomorrow with double session"],
+        coachNote: "Running on RS < 45 extends recovery by 2-3 days."
+      }
+    },
+    strength: {
+      peak: {
+        sessionType: "Heavy compound day — push for progression",
+        mainFocus: "Squat / Deadlift / Press — 85-90% intensity, aim for PR or +2.5%",
+        avoidExtra: ["training to failure on first set", "unplanned extra sets"],
+        coachNote: "Peak days are rare. Execute precisely — don't improvise."
+      },
+      high: {
+        sessionType: "Moderate strength session — quality over load",
+        mainFocus: "Compound lifts at 75-80% — 3 sets, controlled reps, stop at RIR 2",
+        avoidExtra: ["max effort", "ego lifting"],
+        coachNote: "High RS: good for technique at sub-max loads."
+      },
+      moderate: {
+        sessionType: "Skill + accessory work — protect the big lifts",
+        mainFocus: "Accessory and mobility focus — avoid heavy compound today",
+        avoidExtra: ["deadlift or heavy squat", "testing maxes", "session past 60 min"],
+        coachNote: "Moderate days: technique and recovery coexist."
+      },
+      accumulated: {
+        sessionType: "Deload — active recovery only",
+        mainFocus: "Mobility + band work + foam rolling — 30 min max",
+        avoidExtra: ["any barbell work", "high-rep burnout sets"],
+        coachNote: "Every peak block needs a valley. This is the valley."
+      },
+      low: {
+        sessionType: "Rest — lifting today costs more than it gives",
+        mainFocus: "No training — prioritize nutrition, sleep, passive recovery",
+        avoidExtra: ["light gym as compromise", "any eccentric-heavy movement"],
+        coachNote: "RS < 45 + lifting = 48-72h extended recovery."
+      }
+    },
+    hyrox: {
+      peak: {
+        sessionType: "Race-sim or full workout — execute at competition pace",
+        mainFocus: "Hyrox station practice at race pace — 2-3 stations + 1km run transitions",
+        avoidExtra: ["random AMRAP", "heavy leg day before this"],
+        coachNote: "Peak Hyrox days: simulate race conditions. Pace control beats max effort."
+      },
+      high: {
+        sessionType: "Station skill + Zone 2 run — build race efficiency",
+        mainFocus: "2 stations moderate intensity + 20 min Zone 2 run — focus on form",
+        avoidExtra: ["going to failure on any station", "skipping run portion"],
+        coachNote: "High RS: build station efficiency, not race it. Form now = time later."
+      },
+      moderate: {
+        sessionType: "Run-only or single station skill — no combined load",
+        mainFocus: "30 min Zone 2 run — or 1 station drill at low intensity only",
+        avoidExtra: ["combining run + stations", "sled push/pull", "wall balls at speed"],
+        coachNote: "Hyrox combined load spikes recovery debt fast. Split it on moderate days."
+      },
+      accumulated: {
+        sessionType: "Mobility + breathwork — protect race readiness",
+        mainFocus: "Hip flexor + posterior chain mobility — 20 min max, no cardio",
+        avoidExtra: ["any station work", "running even easy"],
+        coachNote: "Accumulated load before Hyrox race = blow up at km 4."
+      },
+      low: {
+        sessionType: "Full rest — CNS needs this more than you think",
+        mainFocus: "No training — sleep and eat for recovery",
+        avoidExtra: ["easy run as compromise", "any plyometric or eccentric movement"],
+        coachNote: "Hyrox taxes CNS hard. RS < 45 = power output 15-20% below baseline."
+      }
+    }
+  };
+
   function buildPlan() {
     const inputs = getInputs();
     const metrics = compute7DayMetrics();
     const RS = computeReadiness(inputs, metrics);
-    const category = inputs.whoop ? categoryFor(RS, metrics.TL, metrics.RD) : "none";
-    let sessionType = "Waiting for check-in";
-    let mainFocus = "Enter WHOOP to build a plan";
-    let intensity = "-";
-    let nutritionKey = "interrupted";
-
-    if (inputs.interrupted && inputs.whoop) {
-      sessionType = "Micro session / interrupted day";
-      mainFocus = "Putting 15 min + mobility";
-      intensity = "Low";
-      nutritionKey = "interrupted";
-    } else if (category === "peak") {
-      sessionType = inputs.availability >= 90 ? "Full technical + strength support" : "High-quality focused session";
-      mainFocus = "Quality performance session";
-      intensity = "High";
-      nutritionKey = "high";
-    } else if (category === "high") {
-      sessionType = "Strength + skill support";
-      mainFocus = "You can push, but avoid max effort";
-      intensity = "Moderate-High";
-      nutritionKey = "high";
-    } else if (category === "moderate") {
-      sessionType = "One priority technical session";
-      mainFocus = "Choose only 1 priority";
-      intensity = "Moderate";
-      nutritionKey = "mid";
-    } else if (category === "accumulated") {
-      sessionType = "Deload / skill only";
-      mainFocus = "Control volume and avoid extra work";
-      intensity = "Low-Moderate";
-      nutritionKey = "accumulated";
-    } else if (category === "low") {
-      sessionType = "Recovery / mobility / feel";
-      mainFocus = "Recover to protect performance";
-      intensity = "Low";
-      nutritionKey = "low";
-    }
-
+    const category = categoryFor(RS, metrics.TL, metrics.RD);
+    const sportLabel = {
+      run: "Run",
+      strength: "Strength",
+      golf: "Golf",
+      hyrox: "Hyrox"
+    }[inputs.sportFocus] || "Training";
+    const sport = inputs.sportFocus || "strength";
+    const decisions = sportDecisions[sport]?.[category] || sportDecisions.strength[category];
+    const intensityByCategory = {
+      peak: "High",
+      high: "Moderate-High",
+      moderate: "Moderate",
+      accumulated: "Low-Moderate",
+      low: "Low"
+    };
+    const nutritionByCategory = {
+      peak: "high",
+      high: "high",
+      moderate: "mid",
+      accumulated: "accumulated",
+      low: "low"
+    };
+    const nutritionKey = inputs.interrupted ? "interrupted" : nutritionByCategory[category] || "mid";
     const avoid = [];
-    if (inputs.todaySportLoad >= 50) avoid.push("heavy lower body", "max effort gym");
-    if (metrics.RD >= 70) avoid.push("heavy compound", "high-volume session");
-    if (metrics.TL >= 75) avoid.push("extra volume");
-    if (category === "low") avoid.push("technical overhaul");
+    avoid.push(...(decisions.avoidExtra || []));
     if (!avoid.length) avoid.push("doing too many priorities");
 
     const plan = {
       date: new Date().toDateString(),
       category,
       readinessScore: RS,
-      sessionType,
-      mainFocus,
-      intensity,
+      sportLabel,
+      sessionType: inputs.interrupted ? `${sportLabel} micro-session / interrupted day` : decisions.sessionType,
+      mainFocus: inputs.interrupted ? `${sportLabel} micro-session + mobility` : decisions.mainFocus,
+      intensity: inputs.interrupted ? "Low" : intensityByCategory[category] || "Moderate",
       duration: `${inputs.availability} min`,
       nutritionKey,
       nutritionPlan: nutritionPlans[nutritionKey].label,
       avoid: [...new Set(avoid)],
-      reason: inputs.whoop ? `RS ${RS} · TL ${metrics.TL} · RD ${metrics.RD}` : "waiting for WHOOP",
+      reason: `RS ${RS} · TL ${metrics.TL} · RD ${metrics.RD}`,
       confidence: confidence(inputs),
+      coachNote: inputs.interrupted ? "Interrupted day: keep the promise small enough to complete." : decisions.coachNote,
       metrics,
       inputs
     };
@@ -968,7 +1151,7 @@
     const hasPlan = plan.category !== "none";
     $("sleepDisplay").innerHTML = `${Number(plan.inputs.sleep).toFixed(1)}<span>h</span>`;
     $("fatigueLabel").textContent = `Fatigue · ${state.fatigue}`;
-    $("mentalLabel").textContent = `Mental · ${state.mental}`;
+    $("confidenceBoostNote").textContent = optionalBoostText(plan.inputs);
     $("scoreRing").style.setProperty("--score", plan.readinessScore);
     $("readinessNumber").textContent = hasPlan ? plan.readinessScore : "-";
 
@@ -980,9 +1163,9 @@
       status.textContent = "CHECK-IN";
       checkin.textContent = "FIRST STEP";
       $("planTitle").textContent = "Complete your Morning Check-in to build today's plan";
-      $("planSubtitle").textContent = "Athlete OS uses recovery, sleep, soreness, training load, and real calendar availability to adjust today's plan.";
+      $("planSubtitle").textContent = "Athlete OS turns 3 daily inputs into one clear decision for a multi-sport athlete.";
       $("detailsToggle").style.display = "none";
-      $("todayPlanCard").innerHTML = `<div class="kicker">TODAY PLAN</div><div class="panel-title">Waiting for check-in</div><div class="panel-text">Enter WHOOP Recovery to unlock today's plan</div>`;
+      $("todayPlanCard").innerHTML = `<div class="kicker">TODAY PLAN</div><div class="panel-title">Ready for your 10-second check-in</div><div class="panel-text">Set fatigue, sleep, and available time to recalculate.</div>`;
     } else {
       const mood = plan.category === "low" || plan.category === "accumulated" ? "bad" : plan.category === "moderate" ? "warn" : "ready";
       status.classList.add(mood);
@@ -993,6 +1176,9 @@
       $("planSubtitle").textContent = `Focus: ${plan.mainFocus}`;
       $("detailsToggle").style.display = "block";
       const warning = plan.metrics.RD >= 70 || plan.metrics.TL >= 75 || plan.inputs.soreness >= 4;
+      const coachStrip = plan.coachNote
+        ? `<div class="coach-strip"><span class="coach-icon">◇</span><span class="coach-text">${plan.coachNote}</span></div>`
+        : "";
       $("todayPlanCard").innerHTML = `
         <div class="kicker">TODAY PLAN</div>
         <div class="panel-title">${plan.sessionType}</div>
@@ -1004,6 +1190,11 @@
           <span class="pill ${plan.confidence.level === "High" ? "good" : plan.confidence.level === "Medium" ? "warn" : "bad"}">Confidence ${plan.confidence.level}</span>
         </div>
         ${warning ? `<div class="warning ${mood === "bad" ? "bad" : ""}"><div class="warning-title">Control volume intelligently today</div><div class="warning-text">Athlete OS sees TL ${plan.metrics.TL}, RD ${plan.metrics.RD}, soreness ${plan.inputs.soreness}. Choose 1 priority and do not add extra work beyond the plan.</div></div>` : ""}
+        <div class="breakdown-wrap">
+          <div class="kicker">WHY THIS SCORE</div>
+          ${breakdownHtml(plan)}
+        </div>
+        ${coachStrip}
       `;
     }
 
@@ -1018,10 +1209,14 @@
           <div class="detail-box"><div class="detail-label">Confidence</div><div class="detail-value">${plan.confidence.level} (${plan.confidence.score}%)</div></div>
           <div class="detail-box"><div class="detail-label">Inputs</div><div class="detail-value">Sleep ${plan.inputs.sleep}h · Fatigue ${plan.inputs.fatigue} · Mental ${plan.inputs.mental}</div></div>
         </div>
+        <div class="breakdown-wrap">
+          <div class="kicker">READINESS BREAKDOWN</div>
+          ${breakdownHtml(plan)}
+        </div>
         <div class="actions"><button class="primary-btn" id="lockPlanBtn">Lock Plan</button><button class="ghost-btn" id="hideDetailsBtn">Hide</button></div>
       </div>
     ` : "";
-    $("nutritionCard").innerHTML = `<div class="kicker">${plan.nutritionPlan}</div><div class="panel-text">${nutritionPlans[plan.nutritionKey].body}</div>`;
+    if ($("nutritionCard")) $("nutritionCard").innerHTML = `<div class="kicker">${plan.nutritionPlan}</div><div class="panel-text">${nutritionPlans[plan.nutritionKey].body}</div>`;
     renderLockedPlan();
     updateProgress();
   }
@@ -1039,14 +1234,12 @@
       soreness: plan.inputs.soreness,
       workStress: plan.inputs.workStress,
       availability: plan.inputs.availability,
+      sportFocus: plan.inputs.sportFocus,
       todaySportLoad: plan.inputs.todaySportLoad,
       yesterdaySportLoad: plan.inputs.yesterdaySportLoad,
       interrupted: plan.inputs.interrupted
     };
     setStore(todayKey("aoMorning_"), payload);
-    const streak = getStore("aoStreak", []);
-    if (Array.isArray(streak) && !streak.includes(payload.date)) streak.push(payload.date);
-    setStore("aoStreak", Array.isArray(streak) ? streak : [payload.date]);
     renderPlan();
     showToast();
   }
@@ -1107,22 +1300,17 @@
     let data = {};
     if (type === "pre") {
       data = { success: $("preSuccess").value.trim() };
+      renderPostWin();
     }
     if (type === "post") {
       data = {
+        winResult: state.winResult,
         planResult: state.planResult,
         planFeedback: state.planFeedback,
-        gymDay: state.gymDay,
-        miss: selectedValues("missPatternGrid").filter(x => x !== "No miss"),
+        feel: state.postFeel,
+        actualLoad: state.actualLoad,
         adjust: $("postAdjust").value.trim(),
-        note: $("postNote").value.trim(),
-        mainLift: {
-          name: $("mainLiftName").value.trim(),
-          weight: $("mainLiftWeight").value,
-          repsText: $("mainLiftReps").value.trim(),
-          rir: $("mainLiftRIR").value,
-          form: $("mainLiftForm").value
-        }
+        note: ""
       };
       renderTomorrow(data);
     }
@@ -1133,16 +1321,37 @@
 
   function renderTomorrow(postData = getStore(todayKey("ao_post_"), {})) {
     const plan = state.currentPlan || buildPlan();
-    const adv = progressionAdvice(postData.mainLift);
-    const focus = postData.adjust || (postData.miss && postData.miss[0]) || "Putting + short game feel";
-    const loadWarn = plan.metrics.TL >= 70 || plan.metrics.RD >= 70;
+    const focus = postData.adjust || "Start with the morning 3-input check-in";
+    const feltWorse = postData.feel === "worse";
+    const heavy = Number(postData.actualLoad) >= 50;
+    const loadWarn = feltWorse || heavy || plan.metrics.TL >= 70 || plan.metrics.RD >= 70;
     $("tomorrowCard").style.display = "block";
     $("tomorrowCard").innerHTML = `
       <div class="kicker">TOMORROW BASE PLAN</div>
-      <div class="panel-title">${loadWarn ? "Recovery / Skill only" : "Moderate technical"}</div>
-      <div class="panel-text">Focus: ${focus}<br>${loadWarn ? "Load or recovery debt is high. Deload first." : "The morning check-in will adjust this again based on WHOOP and sleep."}</div>
-      ${adv ? `<div class="warning"><div class="warning-title">Progressive overload</div><div class="warning-text">${adv.name}: next ${adv.nextWeight}kg - ${adv.reason}</div></div>` : ""}
+      <div class="panel-title">${loadWarn ? "Start conservative, then adjust" : "Normal decision loop"}</div>
+      <div class="panel-text">Focus: ${focus}<br>${loadWarn ? "Tonight's review will pull tomorrow's RS down until recovery proves otherwise." : "Tomorrow morning will update the score from sleep, fatigue, and time available."}</div>
     `;
+  }
+
+  function renderPostWin() {
+    const card = $("todayWinCard");
+    if (!card) return;
+    const todayWin = getStore(todayKey("ao_pre_"), {}).success;
+    if (!todayWin) {
+      card.hidden = true;
+      card.innerHTML = "";
+      return;
+    }
+    card.hidden = false;
+    card.innerHTML = `
+      <div class="review-q">Today you set out to: ${todayWin} — did you get it?</div>
+      <div class="btn-grid" id="winResultGrid">
+        <button class="choice-btn" data-value="yes">Got it</button>
+        <button class="choice-btn" data-value="partial">Partly</button>
+        <button class="choice-btn" data-value="no">Missed</button>
+      </div>
+    `;
+    refreshChoices();
   }
 
   function selectedValues(gridId) {
@@ -1157,14 +1366,52 @@
     $("progressTL").textContent = metrics.TL;
     $("progressRD").textContent = `Recovery debt ${metrics.RD}`;
     const latestPost = getLatestPost();
-    const adv = latestPost ? progressionAdvice(latestPost.mainLift) : null;
-    $("progressAdvice").innerHTML = adv
-      ? `<div class="kicker">PROGRESSIVE OVERLOAD</div><div class="panel-text">${adv.name}: next ${adv.nextWeight}kg<br>${adv.reason}</div>`
-      : `<div class="kicker">PROGRESSIVE OVERLOAD</div><div class="panel-text">No main lift log yet. Fill in the Review page to get a next-session recommendation.</div>`;
+    $("progressAdvice").innerHTML = latestPost
+      ? `<div class="kicker">LOOP LEARNING</div><div class="panel-text">Last review: win ${latestPost.winResult || "-"} · followed ${latestPost.planResult || "-"} · felt ${latestPost.feel || "-"} · load ${latestPost.actualLoad || "0"}. This feeds tomorrow's readiness score.</div>`
+      : `<div class="kicker">LOOP LEARNING</div><div class="panel-text">Complete the evening micro-review once to let tomorrow's score learn from today.</div>`;
     renderHistory();
+    updateValidationLoop();
+  }
+
+  function updateValidationLoop() {
+    const openDaysEl = $("openDays");
+    const followRateEl = $("followRate");
+    const adviceEl = $("loopAdvice");
+    if (!openDaysEl || !followRateEl || !adviceEl) return;
+    const morningDays = new Set();
+    let followed = 0;
+    let reviewed = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("aoMorning_")) morningDays.add(key.replace("aoMorning_", ""));
+      if (key && key.startsWith("ao_post_")) {
+        const post = getStore(key, {});
+        if (post.planResult) {
+          reviewed++;
+          if (post.planResult === "yes" || post.planResult === "partial") followed++;
+        }
+      }
+    }
+    openDaysEl.textContent = morningDays.size;
+    const followRate = reviewed ? Math.round((followed / reviewed) * 100) : null;
+    let loopInsight = "No review data yet. Complete one evening review to start calibration.";
+    if (followRate !== null && followRate >= 80) {
+      loopInsight = "Strong compliance — your RS is now calibrating to your real patterns.";
+    } else if (followRate !== null && followRate >= 50) {
+      loopInsight = "Partial follow-through. Check if decisions feel realistic for your schedule.";
+    } else if (followRate !== null) {
+      loopInsight = "Low follow-through. The plan may not match your real constraints yet — adjust sport focus or time inputs.";
+    }
+    followRateEl.textContent = followRate !== null ? `${followRate}%` : "-";
+    adviceEl.innerHTML = `
+      <div class="kicker">VALIDATION METRICS</div>
+      <div class="panel-title">${loopInsight}</div>
+      <div class="panel-text">Track 14 days: how many mornings you open it, whether RS matches how you feel, and whether the decision is worth following. Build deeper modules only after this loop holds.</div>
+    `;
   }
 
   function renderCountdown() {
+    if (!$("daysRemaining")) return;
     const data = getStore("aoTournament", {});
     if (data.date) $("tournamentDate").value = data.date;
     if (data.name) $("tournamentName").value = data.name;
@@ -1181,6 +1428,7 @@
   }
 
   function saveTournament() {
+    if (!$("tournamentDate")) return;
     const data = {
       date: $("tournamentDate").value,
       name: $("tournamentName").value.trim()
@@ -1195,6 +1443,7 @@
   }
 
   function addTournamentToCalendar() {
+    if (!$("tournamentDate")) return;
     const data = getStore("aoTournament", {});
     if (!data.date) {
       $("tournamentDate").focus();
@@ -1257,8 +1506,10 @@
       if (whoop) tags.push(`<span class="tag ${whoop >= 67 ? "green" : whoop >= 34 ? "yellow" : "red"}">WHOOP ${whoop}%</span>`);
       if (sleep) tags.push(`<span class="tag ${sleep >= 7 ? "green" : sleep >= 6 ? "yellow" : "red"}">${sleep}h</span>`);
       if (post.planResult) tags.push(`<span class="tag blue">Plan ${post.planResult}</span>`);
+      if (post.winResult) tags.push(`<span class="tag ${post.winResult === "yes" ? "green" : post.winResult === "no" ? "red" : "yellow"}">Win ${post.winResult}</span>`);
       if (post.planFeedback) tags.push(`<span class="tag ${post.planFeedback === "yes" ? "green" : post.planFeedback === "no" ? "red" : "yellow"}">Feedback ${post.planFeedback}</span>`);
-      (post.miss || []).slice(0, 2).forEach(m => tags.push(`<span class="tag blue">${m}</span>`));
+      if (post.feel) tags.push(`<span class="tag ${post.feel === "better" ? "green" : post.feel === "worse" ? "red" : "yellow"}">Felt ${post.feel}</span>`);
+      if (post.actualLoad) tags.push(`<span class="tag blue">Load ${post.actualLoad}</span>`);
       return `<div class="history-entry"><div class="history-date">${dateStr}</div><div class="tag-row">${tags.join("") || `<span class="panel-text">Incomplete data</span>`}</div>${post.note ? `<div class="panel-text" style="margin-top:8px">${post.note}</div>` : ""}</div>`;
     }).join("");
   }
@@ -1271,7 +1522,8 @@
     page.classList.add("active");
     $("stickyActionBar").classList.toggle("hidden", name !== "morning");
     if (name === "pre") renderLockedPlan();
-    if (name === "progress") renderCountdown();
+    if (name === "post") renderPostWin();
+    if (name === "progress") updateProgress();
     if (name === "profile") updateProgress();
   }
 
@@ -1289,17 +1541,35 @@
     });
   }
 
+  function refreshChoices() {
+    const map = {
+      winResultGrid: state.winResult,
+      planResultGrid: state.planResult,
+      feedbackGrid: state.planFeedback,
+      feelGrid: state.postFeel,
+      actualLoadGrid: state.actualLoad
+    };
+    Object.entries(map).forEach(([gridId, value]) => {
+      const grid = $(gridId);
+      if (!grid || value == null) return;
+      grid.querySelectorAll(".choice-btn").forEach(btn => {
+        btn.classList.toggle("selected", String(btn.dataset.value) === String(value));
+      });
+    });
+  }
+
   function restoreToday() {
     const m = getStore(todayKey("aoMorning_"), {});
     if (m.whoop) $("whoopScore").value = m.whoop;
     if (m.sleep) $("sleepSlider").value = m.sleep;
     if (m.fatigue) state.fatigue = clamp(m.fatigue, 1, 5, 3);
-    if (m.mental) state.mental = clamp(m.mental, 1, 5, 3);
+    if (m.mental) $("mentalInput").value = String(clamp(m.mental, 1, 5, 3));
     if (m.hrv) $("hrvInput").value = m.hrv;
     if (m.rhr) $("rhrInput").value = m.rhr;
     if (m.soreness) $("sorenessInput").value = m.soreness;
     if (m.workStress) $("workStressInput").value = m.workStress;
     if (m.availability) $("availabilityInput").value = String(m.availability);
+    if (m.sportFocus) $("todaySportFocus").value = m.sportFocus;
     if (m.todaySportLoad) $("todaySportLoad").value = String(m.todaySportLoad);
     if (m.yesterdaySportLoad) $("yesterdaySportLoad").value = String(m.yesterdaySportLoad);
     if (m.interrupted) $("interruptInput").value = "1";
@@ -1308,7 +1578,10 @@
     const post = getStore(todayKey("ao_post_"), {});
     if (post.planResult) state.planResult = post.planResult;
     if (post.planFeedback) state.planFeedback = post.planFeedback;
+    if (post.winResult) state.winResult = post.winResult;
     if (post.gymDay) state.gymDay = post.gymDay;
+    if (post.feel) state.postFeel = post.feel;
+    if (post.actualLoad) state.actualLoad = String(post.actualLoad);
   }
 
   function initManifest() {
@@ -1330,7 +1603,11 @@
   }
 
   function bindEvents() {
-    ["whoopScore","sleepSlider","hrvInput","rhrInput","sorenessInput","workStressInput","availabilityInput","todaySportLoad","yesterdaySportLoad","interruptInput"].forEach(id => {
+    const on = (id, eventName, handler) => {
+      const el = $(id);
+      if (el) el.addEventListener(eventName, handler);
+    };
+    ["whoopScore","sleepSlider","hrvInput","rhrInput","sorenessInput","workStressInput","mentalInput","availabilityInput","todaySportFocus","todaySportLoad","yesterdaySportLoad","interruptInput"].forEach(id => {
       $(id).addEventListener("input", renderPlan);
       $(id).addEventListener("change", renderPlan);
     });
@@ -1346,50 +1623,46 @@
       const choice = event.target.closest(".choice-btn");
       if (choice) {
         const grid = choice.parentElement;
-        if (grid.id === "missPatternGrid") {
-          if (choice.dataset.value === "No miss") grid.querySelectorAll(".choice-btn").forEach(btn => btn.classList.remove("selected"));
-          else grid.querySelector('[data-value="No miss"]')?.classList.remove("selected");
-          choice.classList.toggle("selected");
-        } else {
-          grid.querySelectorAll(".choice-btn").forEach(btn => btn.classList.remove("selected"));
-          choice.classList.add("selected");
-          if (grid.id === "gymGrid") state.gymDay = choice.dataset.value;
-          if (grid.id === "planResultGrid") state.planResult = choice.dataset.value;
-          if (grid.id === "feedbackGrid") state.planFeedback = choice.dataset.value;
-        }
+        grid.querySelectorAll(".choice-btn").forEach(btn => btn.classList.remove("selected"));
+        choice.classList.add("selected");
+        if (grid.id === "winResultGrid") state.winResult = choice.dataset.value;
+        if (grid.id === "planResultGrid") state.planResult = choice.dataset.value;
+        if (grid.id === "feedbackGrid") state.planFeedback = choice.dataset.value;
+        if (grid.id === "feelGrid") state.postFeel = choice.dataset.value;
+        if (grid.id === "actualLoadGrid") state.actualLoad = choice.dataset.value;
       }
       if (event.target.id === "lockPlanBtn") lockPlan();
       if (event.target.id === "hideDetailsBtn") $("detailsPanel").classList.remove("open");
       const save = event.target.closest("[data-save-section]");
       if (save) saveSection(save.dataset.saveSection);
     });
-    $("saveMorningBtn").addEventListener("click", saveMorning);
-    $("stickyMainBtn").addEventListener("click", () => {
+    on("saveMorningBtn", "click", saveMorning);
+    on("stickyMainBtn", "click", () => {
       if ((state.currentPlan || buildPlan()).category === "none") {
-        $("whoopScore").focus();
+        $("saveMorningBtn").focus();
       } else {
         switchPage("pre");
       }
     });
-    $("advancedToggleBtn").addEventListener("click", () => {
+    on("advancedToggleBtn", "click", () => {
       $("advancedPanel").hidden = !$("advancedPanel").hidden;
     });
-    $("detailsToggle").addEventListener("click", () => {
+    on("detailsToggle", "click", () => {
       $("detailsPanel").classList.toggle("open");
     });
-    $("saveTournamentBtn").addEventListener("click", saveTournament);
-    $("addTournamentCalendarBtn").addEventListener("click", addTournamentToCalendar);
-    $("connectGoogleBtn").addEventListener("click", () => {
+    on("saveTournamentBtn", "click", saveTournament);
+    on("addTournamentCalendarBtn", "click", addTournamentToCalendar);
+    on("connectGoogleBtn", "click", () => {
       if (window.location.protocol === "file:") {
         showToast("RUN THROUGH NETLIFY FIRST");
         return;
       }
       window.location.href = "/.netlify/functions/google-auth-start";
     });
-    $("connectAppleBtn").addEventListener("click", () => {
+    on("connectAppleBtn", "click", () => {
       $("appleCalendarFields").hidden = !$("appleCalendarFields").hidden;
     });
-    $("saveAppleCalendarBtn").addEventListener("click", async () => {
+    on("saveAppleCalendarBtn", "click", async () => {
       if (window.location.protocol === "file:") {
         showToast("RUN THROUGH NETLIFY FIRST");
         return;
@@ -1414,14 +1687,14 @@
         showToast(error.message || "CONNECT FAILED");
       }
     });
-    $("syncCalendarBtn").addEventListener("click", async () => {
+    on("syncCalendarBtn", "click", async () => {
       try {
         await syncCalendar(getStore("aoCalendarSource", "google"));
       } catch (error) {
         showToast(error.message || "SYNC FAILED");
       }
     });
-    $("clearCalendarBtn").addEventListener("click", () => {
+    on("clearCalendarBtn", "click", () => {
       localStorage.removeItem("aoCalendarAvailability");
       renderCalendarAvailability();
       renderPlan();
@@ -1435,6 +1708,7 @@
   buildDots();
   restoreToday();
   refreshDots();
+  refreshChoices();
   bindEvents();
   renderCountdown();
   renderCalendarAvailability();
