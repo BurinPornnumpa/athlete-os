@@ -55,6 +55,21 @@
     backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border);
   }
+  .header-actions { display: flex; align-items: center; gap: 10px; }
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 50%;
+    background: rgba(255,255,255,0.055);
+    color: var(--white);
+    font: 13px "IBM Plex Mono", monospace;
+  }
+  .icon-btn img { width: 100%; height: 100%; object-fit: cover; }
+  .icon-btn.active { color: var(--mint); border-color: rgba(0,245,212,0.28); background: rgba(0,245,212,0.08); }
   .logo { font-family: "Bebas Neue", sans-serif; font-size: 24px; letter-spacing: 2.5px; }
   .logo span { color: var(--mint); text-shadow: 0 0 18px rgba(0,245,212,0.35); }
   .date-display { color: var(--muted); font: 11px "IBM Plex Mono", monospace; letter-spacing: 1px; }
@@ -321,6 +336,60 @@
   .slot-item { display: flex; justify-content: space-between; gap: 10px; padding: 10px; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; background: rgba(0,0,0,0.20); }
   .slot-time { color: var(--white); font: 11px "IBM Plex Mono", monospace; }
   .slot-fit { color: var(--mint); font-size: 12px; font-weight: 800; text-align: right; }
+  .prescription {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .session-steps { display: grid; gap: 7px; margin-top: 9px; }
+  .session-step { display: grid; grid-template-columns: 56px 1fr; gap: 10px; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; background: rgba(0,0,0,0.18); }
+  .step-time { color: var(--mint); font: 11px "IBM Plex Mono", monospace; white-space: nowrap; }
+  .step-task { color: var(--white); font-size: 12px; line-height: 1.4; }
+  .time-callout { margin-top: 9px; padding: 10px 12px; border: 1px solid rgba(0,245,212,0.14); border-radius: 14px; background: rgba(0,245,212,0.055); }
+  .time-title { color: var(--white); font-size: 12px; font-weight: 900; line-height: 1.35; }
+  .time-text { margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+  .profile-hero {
+    display: grid;
+    grid-template-columns: 74px 1fr;
+    gap: 14px;
+    align-items: center;
+  }
+  .avatar {
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(0,245,212,0.28);
+    background: linear-gradient(135deg, rgba(0,245,212,0.18), rgba(123,97,255,0.22));
+    color: var(--mint);
+    font: 30px "Bebas Neue", sans-serif;
+    letter-spacing: 1px;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .profile-name { font-size: 20px; font-weight: 900; line-height: 1.15; }
+  .profile-meta { margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+  .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sport-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .check-tile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    background: rgba(0,0,0,0.18);
+    color: var(--white);
+    font-size: 12px;
+  }
+  .check-tile input { accent-color: var(--mint); }
+  .achievement-list { display: grid; gap: 8px; margin-top: 10px; }
+  .achievement-item { display: flex; justify-content: space-between; gap: 10px; padding: 10px; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; background: rgba(0,0,0,0.18); }
+  .achievement-name { font-size: 12px; font-weight: 900; line-height: 1.35; }
+  .achievement-desc { margin-top: 2px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+  .achievement-date { white-space: nowrap; color: var(--mint); font: 10px "IBM Plex Mono", monospace; }
 
   .bottom-nav {
     position: fixed;
@@ -378,7 +447,9 @@
     .score-inner { width: 76px; height: 76px; }
     .score-number { font-size: 36px; }
     .hero-title { font-size: 29px; }
-    .qc-grid, .chip-grid, .detail-grid, .summary-grid { grid-template-columns: 1fr; }
+    .qc-grid, .chip-grid, .detail-grid, .summary-grid, .profile-grid, .sport-checks { grid-template-columns: 1fr; }
+    .profile-hero { grid-template-columns: 58px 1fr; }
+    .avatar { width: 58px; height: 58px; font-size: 24px; }
     .actions { flex-direction: column; }
     .btn-grid { grid-template-columns: repeat(2, 1fr); }
   }
@@ -387,7 +458,10 @@
 <body>
   <header class="header">
     <div class="logo">ATHLETE<span>OS</span></div>
-    <div class="date-display" id="headerDate">-</div>
+    <div class="header-actions">
+      <div class="date-display" id="headerDate">-</div>
+      <button class="icon-btn" id="profileHeaderBtn" type="button" aria-label="Athlete profile">ID</button>
+    </div>
   </header>
 
   <section class="page active" id="page-morning">
@@ -607,12 +681,87 @@
   <section class="page" id="page-profile">
     <main class="main">
       <div class="section">
-        <div class="section-label">Training Log</div>
+        <div class="section-label">Athlete Profile</div>
+        <div class="panel">
+          <div class="profile-hero">
+            <div class="avatar" id="profileAvatar">AO</div>
+            <div>
+              <div class="kicker">ATHLETE ID</div>
+              <div class="profile-name" id="profileNameDisplay">Athlete</div>
+              <div class="profile-meta" id="profileMetaDisplay">Add sport, age, nationality, and body data</div>
+              <div class="pill-row" id="profileSportPills"></div>
+            </div>
+          </div>
+        </div>
         <div class="summary-grid">
           <div class="summary-card"><div class="summary-label">Readiness</div><div class="summary-value" id="progressRS">-</div><div class="summary-note">Latest</div></div>
           <div class="summary-card"><div class="summary-label">7D Load</div><div class="summary-value" id="progressTL">-</div><div class="summary-note" id="progressRD">Recovery debt -</div></div>
+          <div class="summary-card"><div class="summary-label">Open Days</div><div class="summary-value" id="profileOpenDays">-</div><div class="summary-note">Check-ins logged</div></div>
+          <div class="summary-card"><div class="summary-label">Follow Rate</div><div class="summary-value" id="profileFollowRate">-</div><div class="summary-note">Plan compliance</div></div>
         </div>
         <div class="panel" id="progressAdvice"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Personal Data</div>
+        <div class="panel">
+          <div class="profile-grid">
+            <input class="metric-input" id="profileName" type="text" placeholder="Name">
+            <input class="metric-input" id="profilePhoto" type="url" placeholder="Profile photo URL">
+            <input class="metric-input" id="profileWeight" type="number" min="0" step="0.1" placeholder="Weight kg">
+            <input class="metric-input" id="profileHeight" type="number" min="0" step="1" placeholder="Height cm">
+            <input class="metric-input" id="profileDob" type="date" placeholder="Date of birth">
+            <select class="select" id="profileSex">
+              <option value="">Sex</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+              <option value="nonbinary">Non-binary</option>
+              <option value="na">Prefer not to say</option>
+            </select>
+            <input class="metric-input" id="profileNationality" type="text" placeholder="Nationality">
+            <input class="metric-input" id="profileLocation" type="text" placeholder="Training base / city">
+          </div>
+          <div class="sport-checks">
+            <label class="check-tile"><input type="checkbox" data-profile-sport="run"> Run</label>
+            <label class="check-tile"><input type="checkbox" data-profile-sport="strength"> Strength</label>
+            <label class="check-tile"><input type="checkbox" data-profile-sport="golf"> Golf</label>
+            <label class="check-tile"><input type="checkbox" data-profile-sport="hyrox"> Hyrox</label>
+          </div>
+          <textarea class="text-input" id="profileGoals" placeholder="Current goals / events / constraints" style="margin-top:8px"></textarea>
+          <button class="save-btn" id="saveProfileBtn" type="button">SAVE ATHLETE PROFILE</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Calendar Sync</div>
+        <div class="panel" id="calendarPlanPanel">
+          <div class="kicker">TRAINING WINDOWS</div>
+          <div class="panel-title" id="calendarSyncTitle">Connect calendar to choose the training window</div>
+          <div class="panel-text" id="calendarSyncText">Athlete OS reads free/busy time and places daily sessions into the best available slot.</div>
+          <div class="sync-row">
+            <button class="primary-btn" id="connectGoogleBtn" type="button">Connect Google</button>
+            <button class="ghost-btn" id="connectAppleBtn" type="button">Connect Apple</button>
+          </div>
+          <div class="calendar-fields" id="appleCalendarFields" hidden>
+            <input class="single-input" id="appleCalendarUsername" type="email" autocomplete="username" placeholder="Apple ID email">
+            <input class="single-input" id="appleCalendarPassword" type="password" autocomplete="current-password" placeholder="Apple app-specific password">
+            <button class="save-btn" id="saveAppleCalendarBtn" type="button">SAVE APPLE CALENDAR</button>
+          </div>
+          <div class="sync-row">
+            <button class="ghost-btn" id="syncCalendarBtn" type="button">Sync Availability</button>
+            <button class="ghost-btn" id="clearCalendarBtn" type="button">Clear</button>
+          </div>
+          <div class="panel" id="calendarAvailabilityCard"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Achievements</div>
+        <div class="panel" id="achievementCard"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Training History</div>
         <div id="historyList" style="margin-top:12px"></div>
       </div>
     </main>
@@ -623,7 +772,6 @@
     <button class="nav-item" data-page="pre"><span class="nav-icon">⚡</span><span class="nav-label">Pre</span></button>
     <button class="nav-item" data-page="post"><span class="nav-icon">✓</span><span class="nav-label">Post</span></button>
     <button class="nav-item" data-page="progress"><span class="nav-icon">⌁</span><span class="nav-label">Loop</span></button>
-    <button class="nav-item" data-page="profile"><span class="nav-icon">≡</span><span class="nav-label">Log</span></button>
   </nav>
 
   <div class="sticky-action-bar" id="stickyActionBar">
@@ -647,7 +795,18 @@
     actualLoad: null,
     currentPlan: null
   };
-  const DEFAULT_PROFILE = { sessionTime: "60", weight: 67 };
+  const DEFAULT_PROFILE = {
+    name: "Athlete",
+    photo: "",
+    weight: "",
+    height: "",
+    dob: "",
+    sex: "",
+    nationality: "",
+    location: "",
+    sports: ["run", "strength"],
+    goals: ""
+  };
   const gymWeight = { legs: 8, push: 6, pull: 5, full: 10, cardio: 4, none: 0 };
 
   const nutritionPlans = {
@@ -690,6 +849,40 @@
   function getProfile() {
     return { ...DEFAULT_PROFILE, ...getStore("aoProfile", DEFAULT_PROFILE) };
   }
+  function ageFromDob(dob) {
+    if (!dob) return "";
+    const birth = new Date(`${dob}T00:00:00`);
+    if (!Number.isFinite(birth.getTime())) return "";
+    const now = new Date();
+    let age = now.getFullYear() - birth.getFullYear();
+    const m = now.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
+    return age > 0 ? String(age) : "";
+  }
+  function initials(name) {
+    return String(name || "AO").trim().split(/\s+/).slice(0, 2).map(part => part[0]).join("").toUpperCase() || "AO";
+  }
+  function profileStats() {
+    let mornings = 0;
+    let reviewed = 0;
+    let followed = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith("aoMorning_")) mornings++;
+      if (key?.startsWith("ao_post_")) {
+        const post = getStore(key, {});
+        if (post.planResult) {
+          reviewed++;
+          if (post.planResult === "yes" || post.planResult === "partial") followed++;
+        }
+      }
+    }
+    return {
+      mornings,
+      reviewed,
+      followRate: reviewed ? Math.round((followed / reviewed) * 100) : null
+    };
+  }
   function showToast(text = "SAVED") {
     const toast = $("toast");
     toast.textContent = text;
@@ -702,6 +895,30 @@
     const today = new Date().toDateString();
     const slot = availability.freeSlots.find(item => new Date(item.start).toDateString() === today);
     return slot ? Math.min(180, Math.max(15, Math.round(slot.minutes))) : 0;
+  }
+  function todayFreeSlots() {
+    const availability = getStore("aoCalendarAvailability", null);
+    if (!availability || !Array.isArray(availability.freeSlots)) return [];
+    const today = new Date().toDateString();
+    const now = Date.now();
+    return availability.freeSlots
+      .filter(slot => new Date(slot.start).toDateString() === today)
+      .map(slot => {
+        const startMs = Math.max(new Date(slot.start).getTime(), now);
+        const endMs = new Date(slot.end).getTime();
+        return {
+          ...slot,
+          effectiveStart: new Date(startMs).toISOString(),
+          effectiveMinutes: Math.max(0, Math.round((endMs - startMs) / 60000))
+        };
+      })
+      .filter(slot => slot.effectiveMinutes >= 20)
+      .sort((a, b) => new Date(a.effectiveStart) - new Date(b.effectiveStart));
+  }
+  function bestTrainingWindow(targetMinutes) {
+    const slots = todayFreeSlots();
+    if (!slots.length) return null;
+    return slots.find(slot => slot.effectiveMinutes >= targetMinutes) || slots[0];
   }
   function formatTimeRange(start, end) {
     const opts = { hour: "2-digit", minute: "2-digit" };
@@ -917,6 +1134,85 @@
             <div class="breakdown-points ${tone}">${signed(row.points)}</div>
           </div>`;
         }).join("")}
+      </div>`;
+  }
+
+  function sessionMinutes(plan) {
+    const available = Number(plan.inputs.availability) || 60;
+    if (plan.category === "low") return Math.min(30, available);
+    if (plan.category === "accumulated") return Math.min(30, available);
+    if (plan.category === "moderate") return Math.min(45, available);
+    if (plan.category === "high") return Math.min(60, available);
+    return Math.min(90, available);
+  }
+
+  function prescriptionFor(plan) {
+    const sport = plan.inputs.sportFocus;
+    const category = plan.category;
+    const minutes = sessionMinutes(plan);
+    const library = {
+      run: {
+        peak: [["10m", "Warm-up jog + drills"], ["35m", "Tempo or intervals at controlled 80% effort"], ["10m", "Cooldown jog + mobility"]],
+        high: [["5m", "Easy warm-up"], ["35m", "Zone 2 run at conversation pace"], ["5m", "Cooldown walk and breathing"]],
+        moderate: [["5m", "Walk/jog warm-up"], ["20m", "Easy jog, almost too easy"], ["5m", "Cooldown walk"]],
+        accumulated: [["30m", "Walk or yoga only, no run load"]],
+        low: [["20m", "Rest priority: optional easy walk only"]]
+      },
+      strength: {
+        peak: [["10m", "Ramp-up sets"], ["35m", "Squat / Deadlift / Press at 85-90%"], ["10m", "Accessory + cooldown, no extra sets"]],
+        high: [["10m", "Mobility + ramp-up"], ["35m", "Compound lifts 75-80%, 3 controlled sets"], ["10m", "Core or accessory, stop at RIR 2"]],
+        moderate: [["10m", "Mobility"], ["25m", "Accessory technique, avoid heavy compound"], ["5m", "Breathing cooldown"]],
+        accumulated: [["30m", "Mobility + band work + foam rolling"]],
+        low: [["20m", "No lifting. Nutrition, sleep, passive recovery"]]
+      },
+      golf: {
+        peak: [["10m", "Warm-up swings"], ["60m", "Play or simulate full round, commit to targets"], ["10m", "Short debrief, no mechanics changes"]],
+        high: [["10m", "Warm-up + feel"], ["30m", "One swing key only"], ["20m", "Short game finish"]],
+        moderate: [["20m", "Putting feel and distance control"], ["20m", "Chipping touch, no full swing"], ["5m", "Note one cue for next time"]],
+        accumulated: [["15m", "Putting feel and rhythm only"]],
+        low: [["20m", "Walk, stretch, or visualize. No swing practice"]]
+      },
+      hyrox: {
+        peak: [["10m", "Warm-up + movement prep"], ["45m", "2-3 stations at race pace + 1km run transitions"], ["10m", "Cooldown walk + posterior chain mobility"]],
+        high: [["10m", "Station technique warm-up"], ["25m", "2 stations moderate intensity"], ["20m", "Zone 2 run, form first"]],
+        moderate: [["30m", "Zone 2 run only OR one low-intensity station drill"], ["5m", "Mobility reset"]],
+        accumulated: [["20m", "Hip flexor + posterior chain mobility, no cardio"]],
+        low: [["20m", "Full rest. Sleep and eat for recovery"]]
+      }
+    };
+    const steps = library[sport]?.[category] || library.strength.moderate;
+    return {
+      minutes,
+      steps
+    };
+  }
+
+  function sessionPrescriptionHtml(plan) {
+    const prescription = prescriptionFor(plan);
+    const slot = bestTrainingWindow(prescription.minutes);
+    const hasCalendar = !!getStore("aoCalendarAvailability", null);
+    const timeTitle = slot
+      ? `Best time: ${formatTimeRange(slot.effectiveStart || slot.start, slot.end)}`
+      : `Time: ${plan.inputs.availability} min manual window`;
+    const timeText = slot
+      ? `${slot.effectiveMinutes} free minutes from your calendar. ${slot.effectiveMinutes < prescription.minutes ? "Use the shortened version below." : "This fits today's session."}`
+      : hasCalendar
+        ? "No open slot left today. Use the manual availability input or sync calendar again."
+        : "Connect Google or Apple Calendar to place this into your real free time.";
+    return `
+      <div class="prescription">
+        <div class="kicker">WHAT TO DO + WHEN</div>
+        <div class="time-callout">
+          <div class="time-title">${timeTitle}</div>
+          <div class="time-text">${timeText}</div>
+        </div>
+        <div class="session-steps">
+          ${prescription.steps.map(step => `
+            <div class="session-step">
+              <div class="step-time">${step[0]}</div>
+              <div class="step-task">${step[1]}</div>
+            </div>`).join("")}
+        </div>
       </div>`;
   }
 
@@ -1190,6 +1486,7 @@
           <span class="pill ${plan.confidence.level === "High" ? "good" : plan.confidence.level === "Medium" ? "warn" : "bad"}">Confidence ${plan.confidence.level}</span>
         </div>
         ${warning ? `<div class="warning ${mood === "bad" ? "bad" : ""}"><div class="warning-title">Control volume intelligently today</div><div class="warning-text">Athlete OS sees TL ${plan.metrics.TL}, RD ${plan.metrics.RD}, soreness ${plan.inputs.soreness}. Choose 1 priority and do not add extra work beyond the plan.</div></div>` : ""}
+        ${sessionPrescriptionHtml(plan)}
         <div class="breakdown-wrap">
           <div class="kicker">WHY THIS SCORE</div>
           ${breakdownHtml(plan)}
@@ -1266,6 +1563,7 @@
       <div class="kicker">${locked ? "LOCKED TODAY PLAN" : "CURRENT PLAN"}</div>
       <div class="panel-title">${plan.sessionType}</div>
       <div class="panel-text">${plan.mainFocus}</div>
+      ${sessionPrescriptionHtml(plan)}
       <div class="detail-grid">
         <div class="detail-box"><div class="detail-label">Duration</div><div class="detail-value">${plan.duration}</div></div>
         <div class="detail-box"><div class="detail-label">Intensity</div><div class="detail-value">${plan.intensity}</div></div>
@@ -1410,6 +1708,112 @@
     `;
   }
 
+  function achievementRows(stats = profileStats()) {
+    const latestPost = getLatestPost();
+    return [
+      {
+        name: "First Check-in",
+        desc: "Unlocked when the athlete logs the first morning readiness check.",
+        unlocked: stats.mornings >= 1,
+        date: stats.mornings >= 1 ? "Unlocked" : "Locked"
+      },
+      {
+        name: "7-Day Signal",
+        desc: "Enough morning data to begin seeing personal readiness patterns.",
+        unlocked: stats.mornings >= 7,
+        date: stats.mornings >= 7 ? "Unlocked" : `${stats.mornings}/7`
+      },
+      {
+        name: "Loop Closed",
+        desc: "Unlocked after completing an evening review that feeds tomorrow's RS.",
+        unlocked: !!latestPost,
+        date: latestPost ? "Unlocked" : "Locked"
+      },
+      {
+        name: "Reliable Executor",
+        desc: "Follow rate at 80%+ across reviewed sessions.",
+        unlocked: stats.followRate !== null && stats.followRate >= 80,
+        date: stats.followRate !== null ? `${stats.followRate}%` : "Locked"
+      }
+    ];
+  }
+
+  function renderProfile() {
+    const profile = getProfile();
+    const stats = profileStats();
+    if (!$("profileNameDisplay")) return;
+    $("profileNameDisplay").textContent = profile.name || "Athlete";
+    const age = ageFromDob(profile.dob);
+    const meta = [
+      age ? `${age} yrs` : "",
+      profile.sex || "",
+      profile.nationality || "",
+      profile.location || "",
+      profile.height ? `${profile.height} cm` : "",
+      profile.weight ? `${profile.weight} kg` : ""
+    ].filter(Boolean);
+    $("profileMetaDisplay").textContent = meta.join(" · ") || "Add sport, age, nationality, and body data";
+    $("profileAvatar").innerHTML = profile.photo
+      ? `<img src="${profile.photo}" alt="${profile.name || "Athlete"} profile photo">`
+      : initials(profile.name);
+    $("profileHeaderBtn").innerHTML = profile.photo
+      ? `<img src="${profile.photo}" alt="${profile.name || "Athlete"} profile photo">`
+      : initials(profile.name);
+    const sports = Array.isArray(profile.sports) ? profile.sports : [];
+    const sportLabels = { run: "Run", strength: "Strength", golf: "Golf", hyrox: "Hyrox" };
+    $("profileSportPills").innerHTML = sports.length
+      ? sports.map(sport => `<span class="pill good">${sportLabels[sport] || sport}</span>`).join("")
+      : `<span class="pill warn">No sports selected</span>`;
+
+    $("profileName").value = profile.name || "";
+    $("profilePhoto").value = profile.photo || "";
+    $("profileWeight").value = profile.weight || "";
+    $("profileHeight").value = profile.height || "";
+    $("profileDob").value = profile.dob || "";
+    $("profileSex").value = profile.sex || "";
+    $("profileNationality").value = profile.nationality || "";
+    $("profileLocation").value = profile.location || "";
+    $("profileGoals").value = profile.goals || "";
+    document.querySelectorAll("[data-profile-sport]").forEach(input => {
+      input.checked = sports.includes(input.dataset.profileSport);
+    });
+
+    if ($("profileOpenDays")) $("profileOpenDays").textContent = stats.mornings;
+    if ($("profileFollowRate")) $("profileFollowRate").textContent = stats.followRate !== null ? `${stats.followRate}%` : "-";
+    $("achievementCard").innerHTML = `
+      <div class="kicker">UNLOCKS</div>
+      <div class="achievement-list">
+        ${achievementRows(stats).map(item => `
+          <div class="achievement-item">
+            <div>
+              <div class="achievement-name">${item.name}</div>
+              <div class="achievement-desc">${item.desc}</div>
+            </div>
+            <div class="achievement-date">${item.date}</div>
+          </div>`).join("")}
+      </div>
+    `;
+  }
+
+  function saveProfile() {
+    const sports = [...document.querySelectorAll("[data-profile-sport]:checked")].map(input => input.dataset.profileSport);
+    const profile = {
+      name: $("profileName").value.trim() || "Athlete",
+      photo: $("profilePhoto").value.trim(),
+      weight: $("profileWeight").value,
+      height: $("profileHeight").value,
+      dob: $("profileDob").value,
+      sex: $("profileSex").value,
+      nationality: $("profileNationality").value.trim(),
+      location: $("profileLocation").value.trim(),
+      sports,
+      goals: $("profileGoals").value.trim()
+    };
+    setStore("aoProfile", profile);
+    renderProfile();
+    showToast("PROFILE SAVED");
+  }
+
   function renderCountdown() {
     if (!$("daysRemaining")) return;
     const data = getStore("aoTournament", {});
@@ -1520,11 +1924,16 @@
     document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
     document.querySelectorAll(".nav-item").forEach(el => el.classList.toggle("active", el.dataset.page === name));
     page.classList.add("active");
+    $("profileHeaderBtn")?.classList.toggle("active", name === "profile");
     $("stickyActionBar").classList.toggle("hidden", name !== "morning");
     if (name === "pre") renderLockedPlan();
     if (name === "post") renderPostWin();
     if (name === "progress") updateProgress();
-    if (name === "profile") updateProgress();
+    if (name === "profile") {
+      updateProgress();
+      renderProfile();
+      renderCalendarAvailability();
+    }
   }
 
   function buildDots() {
@@ -1650,6 +2059,8 @@
     on("detailsToggle", "click", () => {
       $("detailsPanel").classList.toggle("open");
     });
+    on("profileHeaderBtn", "click", () => switchPage("profile"));
+    on("saveProfileBtn", "click", saveProfile);
     on("saveTournamentBtn", "click", saveTournament);
     on("addTournamentCalendarBtn", "click", addTournamentToCalendar);
     on("connectGoogleBtn", "click", () => {
@@ -1714,6 +2125,7 @@
   renderCalendarAvailability();
   renderPlan();
   updateProgress();
+  renderProfile();
   if (new URLSearchParams(window.location.search).get("calendar") === "google") {
     syncCalendar("google").catch(error => showToast(error.message || "SYNC FAILED"));
   }
